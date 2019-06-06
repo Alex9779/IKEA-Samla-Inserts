@@ -143,7 +143,6 @@ module Create_Samla_Insert($fn) {
                 }
                 // generate surrounding wall
                 difference() {
-
                     Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, 0);
                     Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, -Wall_Thickness);
                 }
