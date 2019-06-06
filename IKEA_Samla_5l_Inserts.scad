@@ -34,15 +34,15 @@ module Samla_Base(width, depth, height, diameter, width_handle) {
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
         else if (Halve == "column") {
-            translate([0, -(depth/2-diameter)-diameter]) square(diameter, false);
-            translate([0, depth/2-diameter]) square(diameter, false);
+            translate([0-Addtional_Spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
+            translate([0-Addtional_Spacing/2, depth/2-diameter]) square(diameter, false);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
         else if (Halve == "row") {
-            translate([-(width/2-diameter), 0]) square(diameter, false);
+            translate([-(width/2-diameter), 0-Addtional_Spacing/2]) square(diameter, false);
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
-            translate([width/2-diameter, 0]) square(diameter, false);
+            translate([width/2-diameter, 0-Addtional_Spacing/2]) square(diameter, false);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
     }
