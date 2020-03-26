@@ -1,5 +1,6 @@
 #!/bin/python3
 import argparse
+import shutil
 import subprocess
 import sys
 from loguru import logger
@@ -48,7 +49,7 @@ def parse_args(args):
     return parser.parse_args(args)
 
 
-def generate_stl(samla_size, total_layers, wanted_layer, cols, rows, wall_mm, bottom_mm, resolution):
+def generate_stl(openscad_bin_path, samla_size, total_layers, wanted_layer, cols, rows, wall_mm, bottom_mm, resolution):
     samla_scad_files = {
         5: 'IKEA_Samla_5l_Inserts.scad',
         11: 'IKEA_Samla_11l_Inserts.scad',
@@ -58,7 +59,7 @@ def generate_stl(samla_size, total_layers, wanted_layer, cols, rows, wall_mm, bo
     parameters = dict(samla_size=samla_size, wanted_layer=wanted_layer, total_layers=total_layers, cols=cols, rows=rows,
                       wall=wall_mm, bottom=bottom_mm, res=resolution)
 
-    openscad_cmd = ['/usr/bin/openscad', '-o',
+    openscad_cmd = [openscad_bin_path, '-o',
                     'IKEA_Samla_{samla_size}l_Inserts_{cols}x{rows}_{wanted_layer}_of_{total_layers}.stl'.format(**parameters),
                     '-D', "Active_Layer={wanted_layer};Layers={total_layers};Cell_Columns={cols};Cell_Rows={rows};"
                     "Resolution={res};Wall_Thickness={wall};Bottom_Thickness={bottom}".format(**parameters),
@@ -77,15 +78,20 @@ def generate_stl(samla_size, total_layers, wanted_layer, cols, rows, wall_mm, bo
 def main(args):
     args_parsed = parse_args(args)
 
+    if shutil.which('openscad') is not None:
+        cmd = 'openscad'
+    else:
+        cmd = '/usr/bin/openscad'
+
     logger.info('Be patient it can be long to generate, around 45 seconds per generated layer')
     if args_parsed.only_layer and args_parsed.only_layer <= args_parsed.layers:
-        generate_stl(samla_size=args_parsed.samla_size, total_layers=args_parsed.layers,
+        generate_stl(openscad_bin_path=cmd, samla_size=args_parsed.samla_size, total_layers=args_parsed.layers,
                      wanted_layer=args_parsed.only_layer, cols=args_parsed.columns, rows=args_parsed.rows,
                      wall_mm=args_parsed.walls, bottom_mm=args_parsed.bottom, resolution=args_parsed.resolution)
 
     else:
         for layer in range(1, args_parsed.layers+1):
-            generate_stl(samla_size=args_parsed.samla_size, total_layers=args_parsed.layers,
+            generate_stl(openscad_bin_path=cmd, samla_size=args_parsed.samla_size, total_layers=args_parsed.layers,
                          wanted_layer=layer, cols=args_parsed.columns, rows=args_parsed.rows,
                          wall_mm=args_parsed.walls, bottom_mm=args_parsed.bottom, resolution=args_parsed.resolution)
 
