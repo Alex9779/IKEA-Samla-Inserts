@@ -7,11 +7,11 @@ Active_Layer = 1; // [1:10]
 // Inserts per box (one insert is a layer)
 Layers = 3; // [1:10]
 
-// Wall thickness
-Wall_Thickness = 0.8;
+// Wall thickness (adjust to your nozzle extrusion width)
+Wall_Thickness = 0.84;
 
-// Bottom thickness
-Bottom_Thickness = 0.8;
+// Bottom thickness (adjust to you layer height)
+Bottom_Thickness = 0.57;
 
 // Amount of cells in larger box dimension
 Cell_Columns = 2; // [1:10]
