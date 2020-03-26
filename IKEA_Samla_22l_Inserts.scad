@@ -25,7 +25,7 @@ Halve = "column"; // ["false":false, "column":column, "row":row]
 // Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
-module Samla_Base(width, depth, height, diameter, width_handle) {
+module Samla_Base(width, depth, height, diameter) {
     hull() {
         if (Halve == "false") {
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
@@ -48,11 +48,54 @@ module Samla_Base(width, depth, height, diameter, width_handle) {
     }
 }
 
+module Samla_HandleAndCutout(width, depth, height, diameter, depth_handle, scale_w, scale_d, offset) {
+    handle_cutout_height = height-23; // needed to calculate if we need handle and cutout, low layers on top don't need them
+    width_handle_inner = width-33;
+    depth_cutout = 5;
+    scale_handle = 0.86;
+    scale_cutout = 0.92;    
+    width_cutout = width-(depth-depth_handle);
+
+    if ((height/Layers)*(Active_Layer-1)<handle_cutout_height) {
+        linear_extrude(height=height, scale=[scale_cutout, scale_d]) {
+            offset(Addtional_Spacing-offset) translate([0, depth/2]) square([width_cutout, depth_cutout], true);
+        }
+        linear_extrude(height=height, scale=[scale_cutout, scale_d]) {
+            offset(Addtional_Spacing-offset) translate([0, -depth/2]) square([width_cutout, depth_cutout], true);
+        }
+        linear_extrude(height=height, scale=[scale_w, scale_handle]) {
+            offset(Addtional_Spacing-offset)
+            hull() {
+                translate([-(width_handle_inner/2+diameter/2), -(depth_handle/2-diameter/2)]) circle(diameter/2);
+                translate([-(width_handle_inner/2+diameter/2), depth_handle/2-diameter/2]) circle(diameter/2);
+                translate([-(width_handle_inner/2+diameter), 0]) square([diameter, depth_handle], true);
+            }
+        }
+        linear_extrude(height=height, scale=[scale_w, scale_handle]) {
+            offset(Addtional_Spacing-offset)
+            hull() {
+                translate([width_handle_inner/2+diameter/2, -(depth_handle/2-diameter/2)]) circle(diameter/2);
+                translate([width_handle_inner/2+diameter/2, depth_handle/2-diameter/2]) circle(diameter/2);
+                translate([width_handle_inner/2+diameter, 0]) square([diameter, depth_handle], true);
+            }
+        }
+    }
+}
+
+module Samla_Content(width, depth, height, diameter, depth_handle, scale_w, scale_d, offset) {
+    difference() {
+        linear_extrude(height=height, scale = [scale_w, scale_d]) {
+            offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter);
+        }
+        Samla_HandleAndCutout(width, depth, height, diameter, depth_handle, scale_w, scale_d, offset);
+    }
+}
+
 module Grid(width, depth, height, columns, rows, wall_thickness, scale_w, scale_d) {
     if (Halve == "false" || Halve == "row") {
         for (i=[-(columns/2-1):1:columns/2-1]) {
             translate([i*(width/columns+2*wall_thickness), 0, height/2])
-            cube([wall_thickness, depth*scale_d, height], true);
+                cube([wall_thickness, depth*scale_d, height], true);
         }
     }
     else if (Halve == "column") {
@@ -65,8 +108,8 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_w, scale_
     if (Halve == "false" || Halve == "column") {
         for (i=[-(rows/2-1):1:rows/2-1]) {
             translate([0, i*(depth/rows+2*wall_thickness), height/2])
-            rotate([0, 0, 90])
-            cube([wall_thickness, width*scale_w, height], true);
+                rotate([0, 0, 90])
+                cube([wall_thickness, width*scale_w, height], true);
         }
     }
     else if (Halve == "row") {
@@ -78,54 +121,12 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_w, scale_
     }
 }
 
-module Samla_HandleAndCutout(width, depth, height, diameter, width_handle, scale_w, scale_d, offset) {
-    wi1 = width-33;
-    di1 = depth-5;
-    hi1 = height-23;
-    sw1 = 0.92;
-    sd1 = 0.86;
-
-    if ((height/Layers)*(Active_Layer-1)<hi1) {
-        linear_extrude(height=height, scale=[sw1, scale_d]) {
-            offset(Addtional_Spacing-offset) translate([0, depth/2]) square([width-(depth-width_handle), depth-di1], true);
-        }
-        linear_extrude(height=height, scale=[sw1, scale_d]) {
-            offset(Addtional_Spacing-offset) translate([0, -depth/2]) square([width-(depth-width_handle), depth-di1], true);
-        }
-        linear_extrude(height=height, scale=[scale_w, sd1]) {
-            offset(Addtional_Spacing-offset)
-            hull() {
-                translate([-(wi1/2+diameter/2), -(width_handle/2-diameter/2)]) circle(diameter/2);
-                translate([-(wi1/2+diameter/2), width_handle/2-diameter/2]) circle(diameter/2);
-                translate([-(wi1/2+diameter), 0]) square([diameter, width_handle], true);
-            }
-        }
-        linear_extrude(height=height, scale=[scale_w, sd1]) {
-            offset(Addtional_Spacing-offset)
-            hull() {
-                translate([wi1/2+diameter/2, -(width_handle/2-diameter/2)]) circle(diameter/2);
-                translate([wi1/2+diameter/2, width_handle/2-diameter/2]) circle(diameter/2);
-                translate([wi1/2+diameter, 0]) square([diameter, width_handle], true);
-            }
-        }
-    }
-}
-
-module Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, offset) {
-    difference() {
-        linear_extrude(height=height, scale = [scale_w, scale_d]) {
-            offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_handle);
-        }
-        Samla_HandleAndCutout(width, depth, height, diameter, width_handle, scale_w, scale_d, offset);
-    }
-}
-
 module Create_Samla_Insert($fn) {
 
-    // 11 liters box dimensions
+    // 22 liters box dimensions
     width = 347;
     depth = 235;
-    width_handle = 102;
+    depth_handle = 102;
     diameter = 20;
     height = 230;
     scale_w = 1.075;
@@ -137,18 +138,18 @@ module Create_Samla_Insert($fn) {
                 // generate grid in inner box shape
                 if (Cell_Columns>1 || Cell_Rows>1) {
                     intersection() {
-                        Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, 0);
+                        Samla_Content(width, depth, height, diameter, depth_handle, scale_w, scale_d, 0);
                         Grid(width, depth, height, Cell_Columns, Cell_Rows, Wall_Thickness, scale_w, scale_d);
                     }
                 }
                 // generate surrounding wall
                 difference() {
-                    Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, 0);
-                    Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, -Wall_Thickness);
+                    Samla_Content(width, depth, height, diameter, depth_handle, scale_w, scale_d, 0);
+                    Samla_Content(width, depth, height, diameter, depth_handle, scale_w, scale_d, -Wall_Thickness);
                 }
                 // generate bottom
                 intersection() {
-                    Samla_Content(width, depth, height, diameter, width_handle, scale_w, scale_d, 0);
+                    Samla_Content(width, depth, height, diameter, depth_handle, scale_w, scale_d, 0);
                     translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_w, depth*scale_d, Bottom_Thickness], true);
                 }
             }
