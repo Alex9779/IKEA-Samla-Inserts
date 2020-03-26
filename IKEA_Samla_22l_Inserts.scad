@@ -50,10 +50,10 @@ module Samla_Base(width, depth, height, diameter, width_handle) {
 
 module Grid(width, depth, height, columns, rows, wall_thickness, scale_w, scale_d) {
     if (Halve == "false" || Halve == "row") {
-    for (i=[-(columns/2-1):1:columns/2-1]) {
-        translate([i*(width/columns+2*wall_thickness), 0, height/2])
-        cube([wall_thickness, depth*scale_d, height], true);
-    }
+        for (i=[-(columns/2-1):1:columns/2-1]) {
+            translate([i*(width/columns+2*wall_thickness), 0, height/2])
+            cube([wall_thickness, depth*scale_d, height], true);
+        }
     }
     else if (Halve == "column") {
         for (i=[0:1:columns-1]) {
@@ -63,11 +63,11 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_w, scale_
     }
 
     if (Halve == "false" || Halve == "column") {
-    for (i=[-(rows/2-1):1:rows/2-1]) {
-        translate([0, i*(depth/rows+2*wall_thickness), height/2])
-        rotate([0, 0, 90])
-        cube([wall_thickness, width*scale_w, height], true);
-    }
+        for (i=[-(rows/2-1):1:rows/2-1]) {
+            translate([0, i*(depth/rows+2*wall_thickness), height/2])
+            rotate([0, 0, 90])
+            cube([wall_thickness, width*scale_w, height], true);
+        }
     }
     else if (Halve == "row") {
         for (i=[0:1:rows-1]) {
