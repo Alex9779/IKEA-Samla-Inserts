@@ -55,7 +55,7 @@ Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 deg
 11_width_cutout = 11_width-(11_depth-11_depth_handle)-3;
 11_depth_cutout = 5;
 11_scale_handle = 0.86;
-11_scale_cutout = 0.92;    
+11_scale_cutout = 0.92;
 11_handle_cutout_height = 92;
 11_diameter = 20;
 
@@ -70,10 +70,9 @@ Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 deg
 22_width_cutout = 22_width-(22_depth-22_depth_handle)-3;
 22_depth_cutout = 5;
 22_scale_handle = 0.86;
-22_scale_cutout = 0.92;    
+22_scale_cutout = 0.92;
 22_handle_cutout_height = 207;
 22_diameter = 20;
-
 
 module Samla_Base(width, depth, height, diameter) {
     hull() {
@@ -193,7 +192,6 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
 }
 
 if (Active_Layer <= Layers) {
-    
     if (Box_Size == "5")
     {
         width = 5_width;
