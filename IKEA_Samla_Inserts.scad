@@ -1,5 +1,5 @@
 // Box size
-Box_Size = "5"; // [5:5 liters,11:11 liters,22:22 liters]
+Box_Size = "5"; // ["5":5 liters,"11":11 liters,"22":22 liters]
 
 // Layer to generate (boxes get wider to the top so)
 Active_Layer = 1; // [1:10]
