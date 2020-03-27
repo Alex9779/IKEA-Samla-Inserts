@@ -34,7 +34,7 @@ My first layer is set to 90% so 0.3 * 0.9 + 2 * 0.3 = 0.87.
 That's where the values come from.
 
 I have the best printing results with these setting because that way I get two perimater lines for the outer walls
-and the grid walls which works bets.
+and the grid walls.
 
 I also tried using a 0.8mm nozzle with just one line for the walls. Layer adhesion was pretty good with litterally no cooling
 (10% fan speed) but I had issues with the moving paths and retractions leading to non-touching walls so I can't recommend this.
