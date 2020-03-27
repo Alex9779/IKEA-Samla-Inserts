@@ -53,7 +53,7 @@ Test_Offset = 5;
 11_height = 115;
 11_scale_width = 1.075;
 11_scale_depth = 1.115;
-11_width_handle = 33;
+11_width_handle = 17;
 11_depth_handle = 104;
 11_width_cutout = 11_width-(11_depth-11_depth_handle);
 11_depth_cutout = 5;
@@ -68,7 +68,7 @@ Test_Offset = 5;
 22_height = 230;
 22_scale_width = 1.075;
 22_scale_depth = 1.115;
-22_width_handle = 33;
+22_width_handle = 17;
 22_depth_handle = 104;
 22_width_cutout = 22_width-(22_depth-22_depth_handle);
 22_depth_cutout = 5;
@@ -111,17 +111,17 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
             offset(Addtional_Spacing-offset)
             hull() {
-                translate([-((width-width_handle)/2+diameter/2), -(depth_handle/2-diameter/2)]) circle(diameter/2);
-                translate([-((width-width_handle)/2+diameter/2), depth_handle/2-diameter/2]) circle(diameter/2);
-                translate([-((width-width_handle)/2+diameter), 0]) square([diameter, depth_handle], true);
+                translate([-((width-width_handle*2)/2+diameter/2), -(depth_handle/2-diameter/2)]) circle(diameter/2);
+                translate([-((width-width_handle*2)/2+diameter/2), depth_handle/2-diameter/2]) circle(diameter/2);
+                translate([-((width-width_handle*2)/2+diameter), 0]) square([diameter, depth_handle], true);
             }
         }
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
             offset(Addtional_Spacing-offset)
             hull() {
-                translate([(width-width_handle)/2+diameter/2, -(depth_handle/2-diameter/2)]) circle(diameter/2);
-                translate([(width-width_handle)/2+diameter/2, depth_handle/2-diameter/2]) circle(diameter/2);
-                translate([(width-width_handle)/2+diameter, 0]) square([diameter, depth_handle], true);
+                translate([(width-width_handle*2)/2+diameter/2, -(depth_handle/2-diameter/2)]) circle(diameter/2);
+                translate([(width-width_handle*2)/2+diameter/2, depth_handle/2-diameter/2]) circle(diameter/2);
+                translate([(width-width_handle*2)/2+diameter, 0]) square([diameter, depth_handle], true);
             }
         }
     }
