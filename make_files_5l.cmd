@@ -10,8 +10,8 @@ SET boxsize=5
 SET cols=2
 SET rows=1
 SET layers=2
-SET wall=0.84
-SET bott=0.57
+SET wall=0.88
+SET bott=0.87
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%cols%x%rows%_%%L-%layers%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
@@ -23,8 +23,8 @@ SET boxsize=5
 SET cols=2
 SET rows=2
 SET layers=3
-SET wall=0.84
-SET bott=0.57
+SET wall=0.88
+SET bott=0.87
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%cols%x%rows%_%%L-%layers%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
@@ -36,8 +36,8 @@ SET boxsize=5
 SET cols=3
 SET rows=3
 SET layers=4
-SET wall=0.84
-SET bott=0.57
+SET wall=0.88
+SET bott=0.87
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%cols%x%rows%_%%L-%layers%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
@@ -49,8 +49,8 @@ SET boxsize=5
 SET cols=10
 SET rows=2
 SET layers=10
-SET wall=0.84
-SET bott=0.57
+SET wall=0.88
+SET bott=0.87
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%cols%x%rows%_%%L-%layers%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
