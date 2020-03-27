@@ -204,7 +204,7 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                 translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
             }
             else if (Test == "true") {
-                translate([width-width_handle-Addtional_Spacing-Test_Offset, (-depth*scale_depth)/2-(depth_handle*scale_handle-diameter2)/2+Test_Offset, height/2]) cube([width, depth*scale_depth, height], true);
+                translate([width-width_handle-Addtional_Spacing-Test_Offset, -depth*scale_depth/2-(depth_handle+Addtional_Spacing*2)*scale_handle/2+diameter2+Test_Offset, height/2]) cube([width, depth*scale_depth, height], true);
                 translate([(width*scale_width)/2+(width_cutout*scale_cutout)/2-Test_Offset, -depth+depth_cutout+Addtional_Spacing+Test_Offset, height/2]) cube([width*scale_width, depth, height], true);
             }
         }
