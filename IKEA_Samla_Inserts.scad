@@ -183,13 +183,15 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                     intersection() {
                         Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
                         translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
+                    }                
+                    // generate surrounding wall
+                    difference() {
+                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
+                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
                     }
                 }
-                // generate surrounding wall
-                difference() {
+                else if (Test == "true") {
                     Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                    if (Test == "false")
-                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
                 }
             }
             if (Test == "false") {
