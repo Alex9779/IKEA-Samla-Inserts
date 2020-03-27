@@ -79,13 +79,7 @@ Test_Offset = 5;
 
 module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
     hull() {
-        if (Test == "true") {
-            translate([(width_cutout/2*scale_cutout-Test_Offset)-Addtional_Spacing, -(depth/2-diameter)-diameter]) square(diameter, false);
-            translate([(width_cutout/2*scale_cutout-Test_Offset)-Addtional_Spacing, depth/2-diameter]) square(diameter, false);
-            translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
-            translate([width/2-diameter, depth/2-diameter]) circle(diameter);
-        }
-        else if (Halve == "false") {
+        if (Halve == "false") {
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
@@ -135,11 +129,9 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
 
 module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset) {    
     difference() {
-        linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-            if (Test == "true" ) translate([-width_cutout*scale_cutout/2+Test_Offset, 0, 0])
+        linear_extrude(height=height, scale = [scale_width, scale_depth]) {            
             offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
-        }
-        if (Test == "true" ) translate([-width_cutout*scale_cutout/2+Test_Offset, 0, 0])
+        }        
         Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset);
     }
 
@@ -196,12 +188,16 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                 // generate surrounding wall
                 difference() {
                     Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                    //Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
+                    if (Test == "false") 
+                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
                 }
             }
             if (Test == "false") {
                 // remove everything not needed for current layer
                 translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
+            }
+            else {
+                translate([(width*scale_width)/2+width_cutout*scale_cutout/2-Test_Offset, 0, height/2]) cube([width*scale_width, depth*scale_depth, height], true);
             }
         }
     }
