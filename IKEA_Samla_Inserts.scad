@@ -105,12 +105,14 @@ module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
 
 module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
     if ((height/Layers)*(Active_Layer-1)<handle_cutout_height) {
+        // cutout
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
             offset(Addtional_Spacing-offset) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
             offset(Addtional_Spacing-offset) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
         }
+        // handle
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
             offset(delta=Addtional_Spacing-offset)
             hull() {
