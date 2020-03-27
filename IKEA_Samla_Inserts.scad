@@ -29,7 +29,7 @@ Halve = "false"; // ["false":false, "column":column, "row":row]
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
 /* [Hidden] */
-Test = "true";
+Test = "false";
 Test_Offset = 5;
 
 // 5 liters box
