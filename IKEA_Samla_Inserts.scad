@@ -29,6 +29,9 @@ Halve = "false"; // ["false":false, "column":column, "row":row]
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
 /* [Hidden] */
+Test = "true";
+Test_Offset = 5;
+
 // 5 liters box
 5_width = 240; // overall inner width of the box
 5_depth = 155; // overall inner depth of the box
@@ -74,9 +77,15 @@ Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 deg
 22_handle_cutout_height = 207;
 22_diameter = 20;
 
-module Samla_Base(width, depth, height, diameter) {
+module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
     hull() {
-        if (Halve == "false") {
+        if (Test == "true") {
+            translate([(width_cutout/2*scale_cutout-Test_Offset)-Addtional_Spacing, -(depth/2-diameter)-diameter]) square(diameter, false);
+            translate([(width_cutout/2*scale_cutout-Test_Offset)-Addtional_Spacing, depth/2-diameter]) square(diameter, false);
+            translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
+            translate([width/2-diameter, depth/2-diameter]) circle(diameter);
+        }
+        else if (Halve == "false") {
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
@@ -93,7 +102,7 @@ module Samla_Base(width, depth, height, diameter) {
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
             translate([width/2-diameter, 0-Addtional_Spacing/2]) square(diameter, false);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
-        }
+        }        
     }
 }
 
@@ -124,13 +133,16 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
     }
 }
 
-module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset) {
+module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset) {    
     difference() {
         linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-            offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter);
+            if (Test == "true" ) translate([-width_cutout*scale_cutout/2+Test_Offset, 0, 0])
+            offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
         }
+        if (Test == "true" ) translate([-width_cutout*scale_cutout/2+Test_Offset, 0, 0])
         Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset);
     }
+
 }
 
 module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, scale_depth) {
@@ -167,26 +179,30 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
     translate([0, 0, -(height/Layers)*(Active_Layer-1)]) {
         intersection() {
             union() {
-                // generate grid in inner box shape
-                if (Cell_Columns>1 || Cell_Rows>1) {
+                if (Test == "false") {
+                    // generate grid in inner box shape
+                    if (Cell_Columns>1 || Cell_Rows>1) {
+                        intersection() {
+                            Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
+                            Grid(width, depth, height, Cell_Columns, Cell_Rows, Wall_Thickness, scale_width, scale_depth);
+                        }
+                    }
+                    // generate bottom
                     intersection() {
                         Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                        Grid(width, depth, height, Cell_Columns, Cell_Rows, Wall_Thickness, scale_width, scale_depth);
+                        translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
                     }
                 }
                 // generate surrounding wall
                 difference() {
                     Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                    Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
-                }
-                // generate bottom
-                intersection() {
-                    Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                    translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
+                    //Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
                 }
             }
-            // remove everything not needed for current layer
-            translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
+            if (Test == "false") {
+                // remove everything not needed for current layer
+                translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
+            }
         }
     }
 }
