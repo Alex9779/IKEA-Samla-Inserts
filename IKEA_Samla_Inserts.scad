@@ -206,56 +206,14 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
 if (Active_Layer <= Layers) {
     if (Box_Size == "5")
     {
-        width = 5_width;
-        depth = 5_depth;
-        height = 5_height;
-        scale_width = 5_scale_width;
-        scale_depth = 5_scale_depth;
-        width_handle = 5_width_handle;
-        depth_handle = 5_depth_handle;
-        width_cutout = 5_width_cutout;
-        depth_cutout = 5_depth_cutout;
-        scale_handle = 5_scale_handle;
-        scale_cutout = 5_scale_cutout;
-        handle_cutout_height = 5_handle_cutout_height;
-        diameter = 5_diameter;
-
-        Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, Resolution);
+        Create_Samla_Insert(5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_Resolution);
     }
     else if (Box_Size == "11")
     {
-        width = 11_width;
-        depth = 11_depth;
-        height = 11_height;
-        scale_width = 11_scale_width;
-        scale_depth = 11_scale_depth;
-        width_handle = 11_width_handle;
-        depth_handle = 11_depth_handle;
-        width_cutout = 11_width_cutout;
-        depth_cutout = 11_depth_cutout;
-        scale_handle = 11_scale_handle;
-        scale_cutout = 11_scale_cutout;
-        handle_cutout_height = 11_handle_cutout_height;
-        diameter = 11_diameter;
-
-        Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, Resolution);
+        Create_Samla_Insert(11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_Resolution);
     }
     else if (Box_Size == "22")
     {
-        width = 22_width;
-        depth = 22_depth;
-        height = 22_height;
-        scale_width = 22_scale_width;
-        scale_depth = 22_scale_depth;
-        width_handle = 22_width_handle;
-        depth_handle = 22_depth_handle;
-        width_cutout = 22_width_cutout;
-        depth_cutout = 22_depth_cutout;
-        scale_handle = 22_scale_handle;
-        scale_cutout = 22_scale_cutout;
-        handle_cutout_height = 11_handle_cutout_height;
-        diameter = 11_diameter;
-
-        Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, Resolution);
+        Create_Samla_Insert(22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_Resolution);
     }
 }
