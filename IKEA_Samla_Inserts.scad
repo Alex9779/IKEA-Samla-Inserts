@@ -116,17 +116,17 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
             offset(delta=Addtional_Spacing-offset)
             hull() {
-                translate([-((width-width_handle*2)/2+diameter2/2), -(depth_handle/2-diameter2/2)]) circle(diameter2/2);
-                translate([-((width-width_handle*2)/2+diameter2/2), depth_handle/2-diameter2/2]) circle(diameter2/2);
-                translate([-((width-width_handle*2)/2+diameter2), 0]) square([diameter2, depth_handle], true);
+                translate([-(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
+                translate([-(width/2-width_handle+diameter2), depth_handle/2-diameter2]) circle(diameter2);
+                translate([-(width/2-width_handle+diameter2+diameter2/2), 0]) square([diameter2, depth_handle], true);
             }
         }
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
             offset(delta=Addtional_Spacing-offset)
             hull() {
-                translate([(width-width_handle*2)/2+diameter2/2, -(depth_handle/2-diameter2/2)]) circle(diameter2/2);
-                translate([(width-width_handle*2)/2+diameter2/2, depth_handle/2-diameter2/2]) circle(diameter2/2);
-                translate([(width-width_handle*2)/2+diameter2, 0]) square([diameter2, depth_handle], true);
+                translate([(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
+                translate([(width/2-width_handle+diameter2), depth_handle/2-diameter2]) circle(diameter2);
+                translate([(width/2-width_handle+diameter2+diameter2/2), 0]) square([diameter2, depth_handle], true);
             }
         }
     }
