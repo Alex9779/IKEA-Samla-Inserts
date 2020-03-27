@@ -198,7 +198,7 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                 // remove everything not needed for current layer
                 translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
             }
-            else {
+            else if (Test == "true") {
                 translate([(width*scale_width)/2+width_cutout*scale_cutout/2-Test_Offset, 0, height/2]) cube([width*scale_width, depth*scale_depth, height], true);
             }
         }
