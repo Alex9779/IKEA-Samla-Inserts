@@ -96,7 +96,7 @@ module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
             translate([width/2-diameter, 0-Addtional_Spacing/2]) square(diameter, false);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
-        }        
+        }
     }
 }
 
@@ -127,11 +127,11 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
     }
 }
 
-module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset) {    
+module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset) {
     difference() {
-        linear_extrude(height=height, scale = [scale_width, scale_depth]) {            
+        linear_extrude(height=height, scale = [scale_width, scale_depth]) {
             offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
-        }        
+        }
         Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, offset);
     }
 
@@ -188,7 +188,7 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                 // generate surrounding wall
                 difference() {
                     Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, 0);
-                    if (Test == "false") 
+                    if (Test == "false")
                         Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, -Wall_Thickness);
                 }
             }
