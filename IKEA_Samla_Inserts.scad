@@ -8,10 +8,10 @@ Active_Layer = 1; // [1:10]
 Layers = 3; // [1:10]
 
 // Wall thickness (adjust to your nozzle extrusion width)
-Wall_Thickness = 0.84;
+Wall_Thickness = 0.88;
 
 // Bottom thickness (adjust to you layer height)
-Bottom_Thickness = 0.57;
+Bottom_Thickness = 0.87;
 
 // Amount of cells in larger box dimension
 Cell_Columns = 2; // [1:10]
@@ -23,7 +23,7 @@ Cell_Rows = 2; // [1:10]
 Addtional_Spacing = 1;
 
 // Halve (just print half a layer)
-Halve = "false"; // ["false":false, "column":column, "row":row]
+Halve = "column"; // ["false":false, "column":column, "row":row]
 
 // Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
@@ -51,10 +51,10 @@ Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 deg
 11_scale_width = 1.075;
 11_scale_depth = 1.115;
 11_width_handle = 33;
-11_depth_handle = 102;
-11_width_cutout = 11_width-(11_depth-11_depth_handle)-3;
+11_depth_handle = 104;
+11_width_cutout = 11_width-(11_depth-11_depth_handle);
 11_depth_cutout = 5;
-11_scale_handle = 0.86;
+11_scale_handle = 0.85;
 11_scale_cutout = 0.92;
 11_handle_cutout_height = 92;
 11_diameter = 20;
@@ -66,10 +66,10 @@ Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 deg
 22_scale_width = 1.075;
 22_scale_depth = 1.115;
 22_width_handle = 33;
-22_depth_handle = 102;
-22_width_cutout = 22_width-(22_depth-22_depth_handle)-3;
+22_depth_handle = 104;
+22_width_cutout = 22_width-(22_depth-22_depth_handle);
 22_depth_cutout = 5;
-22_scale_handle = 0.86;
+22_scale_handle = 0.85;
 22_scale_cutout = 0.92;
 22_handle_cutout_height = 207;
 22_diameter = 20;

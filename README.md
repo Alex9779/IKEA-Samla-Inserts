@@ -27,8 +27,9 @@ getting a little too wide.
 ## Tips
 The initial values for bottom and wall thickness are base on my settings for a 0.4mm nozzle with a 0.3mm layer height.
 
-I use 0.42mm as the extrusion width of my nozzle with Colorfabb's PLA Economy.
-My first layer is set to 90% so 0.3 * 0.9 + 0.3 = 0.57.
+I use 0.44mm as the extrusion width of my nozzle with Colorfabb's PLA Economy.
+I do 3 bottom layers.
+My first layer is set to 90% so 0.3 * 0.9 + 2 * 0.3 = 0.87.
 
 That's where the values come from.
 
