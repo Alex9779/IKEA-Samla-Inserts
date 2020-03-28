@@ -34,18 +34,18 @@ Test_Offset = 5;
 
 // 5 liters box
 5_width = 240; // overall inner width of the box
-5_depth = 155; // overall inner depth of the box
-5_height = 115; // overall inner height of the box
+5_depth = 154; // overall inner depth of the box
+5_height = 118; // overall inner height of the box
 5_scale_width = 1.075; // factor how much bigger the box gets in width [inner width at top] / [inner width at bottom]
 5_scale_depth = 1.115; // factor how much bigger the box gets in depth [inner depth at top] / [inner depth at bottom]
-5_width_handle = 33; // width of the handle
-5_depth_handle = 90; // depth of the handle
+5_width_handle = 17; // width of the handle
+5_depth_handle = 92; // depth of the handle
 5_width_cutout = 5_width-(5_depth-5_depth_handle); //width of the cutout
-5_depth_cutout = 5; // depth of the cutout
-5_scale_handle = 0.86; // factor how much smaller the handle gets [handle width at top] / [handle width at bottom]
-5_scale_cutout = 0.92; // factor how much smaller the cutout gets [cutout width at top] / [cutout width at bottom]
-5_handle_cutout_height = 92; // needed to calculate if we need handle and cutout, low layers on top don't need them
-5_diameter = 20; // diameter of the rounded box corners
+5_depth_cutout = 2.5; // depth of the cutout
+5_scale_handle = 0.85; // factor how much smaller the handle gets [handle width at top] / [handle width at bottom]
+5_scale_cutout = 0.90; // factor how much smaller the cutout gets [cutout width at top] / [cutout width at bottom]
+5_handle_cutout_height = 93; // needed to calculate if we need handle and cutout, low layers on top don't need them
+5_diameter = 18; // diameter of the rounded box corners
 5_diameter2 = 12; // diameter of the handle corners
 
 // 11 liters box
