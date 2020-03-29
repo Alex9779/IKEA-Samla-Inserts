@@ -50,18 +50,18 @@ Test_Offset = 5;
 
 // 11 liters box
 11_width = 347;
-11_depth = 235;
-11_height = 115;
-11_scale_width = 1.075;
-11_scale_depth = 1.115;
+11_depth = 234;
+11_height = 118;
+11_scale_width = 1.05;
+11_scale_depth = 1.09;
 11_width_handle = 17;
-11_depth_handle = 104;
-11_width_cutout = 11_width-(11_depth-11_depth_handle);
-11_depth_cutout = 5;
+11_depth_handle = 103;
+11_width_cutout = 11_width-(11_depth-11_depth_handle)-12;
+11_depth_cutout = 2.5;
 11_scale_handle = 0.85;
-11_scale_cutout = 0.92;
-11_handle_cutout_height = 92;
-11_diameter = 20;
+11_scale_cutout = 0.90;
+11_handle_cutout_height = 90;
+11_diameter = 18;
 11_diameter2 = 12;
 
 // 22 liters box
