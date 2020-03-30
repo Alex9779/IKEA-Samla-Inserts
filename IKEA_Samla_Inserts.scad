@@ -66,18 +66,19 @@ Test_Offset = 5;
 
 // 22 liters box
 22_width = 347;
-22_depth = 235;
-22_height = 230;
-22_scale_width = 1.075;
+22_width = 328;
+22_depth = 218;
+22_height = 257;
+22_scale_width = 1.115;
 22_scale_depth = 1.115;
 22_width_handle = 17;
-22_depth_handle = 104;
-22_width_cutout = 22_width-(22_depth-22_depth_handle);
-22_depth_cutout = 5;
-22_scale_handle = 0.85;
-22_scale_cutout = 0.92;
+22_depth_handle = 123;
+22_width_cutout = 22_width-(22_depth-22_depth_handle)-10;
+22_depth_cutout = 2.5;
+22_scale_handle = 0.78;
+22_scale_cutout = 0.86;
 22_handle_cutout_height = 207;
-22_diameter = 20;
+22_diameter = 18;
 22_diameter2 = 12;
 
 module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
