@@ -33,6 +33,7 @@ Test = "false";
 Test_Offset = 5;
 
 // 5 liters box
+// VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
 5_width = 240; // overall inner width of the box
 5_depth = 154; // overall inner depth of the box
 5_height = 118; // overall inner height of the box
@@ -49,6 +50,7 @@ Test_Offset = 5;
 5_diameter2 = 12; // diameter of the handle corners
 
 // 11 liters box
+// VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
 11_width = 347;
 11_depth = 234;
 11_height = 118;
@@ -65,7 +67,7 @@ Test_Offset = 5;
 11_diameter2 = 12;
 
 // 22 liters box
-22_width = 347;
+// VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
 22_width = 328;
 22_depth = 218;
 22_height = 257;
