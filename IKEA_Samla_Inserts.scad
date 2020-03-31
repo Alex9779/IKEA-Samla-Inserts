@@ -160,7 +160,7 @@ module Samla_Content(width, depth, height, scale_width, scale_depth, width_handl
 
 module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, scale_depth) {
     if (Halve == "false" || Halve == "row") {
-        for (i=[-(columns/2-1):1:columns/2-1]) { 
+        for (i=[-(columns/2-1):1:columns/2-1]) {
             translate([i*((width-wall_thickness-2*Addtional_Spacing)/columns), 0, height/2])
                 cube([wall_thickness, depth*scale_depth, height], true);
         }
@@ -208,7 +208,7 @@ module Layer_Marking_Text_Single(width, depth, height, diameter, position)
     }
 }
 
-module Layer_Marking_Text(width, depth, height, diameter) {     
+module Layer_Marking_Text(width, depth, height, diameter) {
     if (Layer_Marking_Positions == 1) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
     }
@@ -219,53 +219,53 @@ module Layer_Marking_Text(width, depth, height, diameter) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
     }
-    else if (Layer_Marking_Positions == 4) {        
+    else if (Layer_Marking_Positions == 4) {
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
     }
-    else if (Layer_Marking_Positions == 5) {        
+    else if (Layer_Marking_Positions == 5) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
     }
-    else if (Layer_Marking_Positions == 6) {        
+    else if (Layer_Marking_Positions == 6) {
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         Layer_Marking_Text_Single(width, depth, height, diameter, 4);
     }
-    else if (Layer_Marking_Positions == 7) {        
+    else if (Layer_Marking_Positions == 7) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
     }
-    else if (Layer_Marking_Positions == 8) {        
+    else if (Layer_Marking_Positions == 8) {
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 9) {        
+    else if (Layer_Marking_Positions == 9) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 10) {        
+    else if (Layer_Marking_Positions == 10) {
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 11) {                
+    else if (Layer_Marking_Positions == 11) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 12) {        
+    else if (Layer_Marking_Positions == 12) {
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 13) {        
+    else if (Layer_Marking_Positions == 13) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 14) {        
+    else if (Layer_Marking_Positions == 14) {
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
         Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
-    else if (Layer_Marking_Positions == 15) {        
+    else if (Layer_Marking_Positions == 15) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
         if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
         if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
