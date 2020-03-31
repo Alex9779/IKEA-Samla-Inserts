@@ -37,6 +37,9 @@ Layer_Marking_Type = "engrave"; // ["engrave":engrave, "emboss":emboss]
 // Layer marking height
 Layer_Marking_Height = 0.3;
 
+// Layer marking size
+Layer_Marking_Size = 7;
+
 // Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
