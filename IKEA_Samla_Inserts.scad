@@ -23,7 +23,7 @@ Cell_Rows = 2; // [1:10]
 Addtional_Spacing = 1;
 
 // Halve (just print half a layer)
-Halve = "false"; // ["false":false, "column":column, "row":row]
+Halve = "row"; // ["false":false, "column":column, "row":row]
 
 // Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
