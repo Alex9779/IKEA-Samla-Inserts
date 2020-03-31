@@ -8,7 +8,7 @@ Active_Layer = 1; // [1:10]
 Layers = 3; // [1:10]
 
 // Wall thickness (adjust to your nozzle extrusion width)
-Wall_Thickness = 0.88;
+Wall_Thickness = 0.75;
 
 // Bottom thickness (adjust to you layer height)
 Bottom_Thickness = 0.87;
