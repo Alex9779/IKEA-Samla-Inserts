@@ -41,15 +41,6 @@ Layer_Marking_Type = "engrave"; // ["engrave":engrave, "emboss":emboss]
 // Layer marking height
 Layer_Marking_Height = 0.3;
 
-// Layer marking position X
-Layer_Marking_Position_X = 22;
-
-// Layer marking position Y
-Layer_Marking_Position_Y = 18;
-
-// Layer marking size
-Layer_Marking_Size = 10;
-
 /* [Hidden] */
 Test = "false";
 Test_Offset = 5;
@@ -199,24 +190,25 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, sc
 
 module Layer_Marking_Text_Single(width, depth, height, diameter, position)
 {
-    width_offset = Layer_Marking_Position_X;
-    depth_offset = Layer_Marking_Position_Y;
+    size = Cell_Columns >= 6 || Cell_Rows >= 6 ? 10-(max(Cell_Columns, Cell_Rows)-3) : 10;
+    width_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 22-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0) : 24-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0);
+    depth_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 16-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1) : 18-(Active_Layer/2-1);
+
     if (position == 1) {
-        translate([-width/2+width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=Layer_Marking_Size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        #translate([-width/2+width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 2) {
-        translate([width/2-width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=Layer_Marking_Size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        #translate([width/2-width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 4) {
-        translate([-width/2+width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=Layer_Marking_Size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        #translate([-width/2+width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 8) {
-       translate([width/2-width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=Layer_Marking_Size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+       #translate([width/2-width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
 }
 
-module Layer_Marking_Text(width, depth, height, diameter) {
-     
+module Layer_Marking_Text(width, depth, height, diameter) {     
     if (Layer_Marking_Positions == 1) {
         if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
     }
