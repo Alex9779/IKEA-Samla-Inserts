@@ -190,6 +190,109 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, sc
     }
 }
 
+module Layer_Marking_Text_Single(width, depth, diameter, position)
+{
+    width_offset = diameter/2+Layer_Marking_Size+(log(Layer_Marking_Size <= 10 ? 10 : Layer_Marking_Size)-1)*25;
+    depth_offset = diameter/2+Layer_Marking_Size-(log(Layer_Marking_Size <= 10 ? 10 : Layer_Marking_Size)-1)*30;
+    if (position == 1) {
+        translate([-width/2+width_offset, depth/2-depth_offset, Bottom_Thickness]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "/", Layers), size=Layer_Marking_Size, halign="center", valign="center");
+    }
+    else if (position == 2) {
+        translate([width/2-width_offset, depth/2-depth_offset, Bottom_Thickness]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "/", Layers), size=Layer_Marking_Size, halign="center", valign="center");
+    }
+    else if (position == 4) {
+        translate([-width/2+width_offset, -depth/2+depth_offset, Bottom_Thickness]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "/", Layers), size=Layer_Marking_Size, halign="center", valign="center");
+    }
+    else if (position == 8) {
+        translate([width/2-width_offset, -depth/2+depth_offset, Bottom_Thickness]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "/", Layers), size=Layer_Marking_Size, halign="center", valign="center");
+    }
+}
+
+module Layer_Marking_Text(width, depth, diameter) {
+     
+    if (Layer_Marking_Positions == 1) {
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+    }
+    else if (Layer_Marking_Positions == 2) {
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+    }
+    else if (Layer_Marking_Positions == 3) {
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+    }
+    else if (Layer_Marking_Positions == 4) {        
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+    }
+    else if (Layer_Marking_Positions == 5) {        
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+    }
+    else if (Layer_Marking_Positions == 6) {        
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+        Layer_Marking_Text_Single(width, depth, diameter, 4);
+    }
+    else if (Layer_Marking_Positions == 7) {        
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        Layer_Marking_Text_Single(width, depth, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+    }
+    else if (Layer_Marking_Positions == 8) {        
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 9) {        
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 10) {        
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 11) {                
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 12) {        
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 13) {        
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 14) {        
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+    else if (Layer_Marking_Positions == 15) {        
+        if (Halve == "false") Layer_Marking_Text_Single(width, depth, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(width, depth, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(width, depth, diameter, 4);
+        Layer_Marking_Text_Single(width, depth, diameter, 8);
+    }
+}
+
+module Layer_Marking(width, depth, diameter) {
+    if (Layer_Marking == "true" && Layer_Marking_Positions != 0) {
+        if (Layer_Marking_Type == "engrave") {
+            difference() {
+                children();
+                translate([0, 0, -Layer_Marking_Height]) Layer_Marking_Text(width, depth, diameter);
+            }
+        }
+        else if (Layer_Marking_Type == "emboss") {
+            children();
+            #Layer_Marking_Text(width, depth, diameter);
+        }
+    }
+    else
+    {
+        children();
+    }
+}
+
 module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
     translate([0, 0, -(height/Layers)*(Active_Layer-1)]) {
         intersection() {
@@ -203,9 +306,11 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
                         }
                     }
                     // generate bottom
-                    intersection() {
-                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                        translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
+                    Layer_Marking(width, depth, diameter) {
+                        intersection() {
+                            Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                            translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
+                        }
                     }
                     // generate surrounding wall
                     difference() {
