@@ -138,7 +138,7 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
 module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
     difference() {
         linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-            offset(-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
+            offset(delta=-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
         }
         Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
     }
