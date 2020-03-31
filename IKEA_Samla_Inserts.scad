@@ -98,7 +98,7 @@ module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
         else if (Halve == "row") {
-            translate([-(width/2-diameter), 0-Addtional_Spacing/2]) square(diameter, false);
+            translate([-(width/2-diameter)-diameter, 0-Addtional_Spacing/2]) square(diameter, false);
             translate([-(width/2-diameter), depth/2-diameter]) circle(diameter);
             translate([width/2-diameter, 0-Addtional_Spacing/2]) square(diameter, false);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
