@@ -25,6 +25,18 @@ Addtional_Spacing = 1;
 // Halve (just print half a layer)
 Halve = "row"; // ["false":false, "column":column, "row":row]
 
+// Layer marking
+Layer_Marking = "false"; // ["false":false, "true":true]
+
+// Layer marking position(s)
+Layer_Marking_Positions = 0; // [0:none, 1:ul, 2:ur, 3:ul+ur, 4:ll, 5:ul+ll, 6:ur+ll, 7:ul+ur+ll, 8:lr, 9:ul+lr, 10:ur+lr, 11:ul+ur+lr, 12:ll+lr, 13:ul+ll+lr, 14:ur+ll+lr, 15:ul+ur+ll+lr]
+
+// Layer marking type
+Layer_Marking_Type = "engrave" // ["engrave":engrave, "emboss":emboss]
+
+// Layer marking height
+Layer_Marking_Height = 0.3;
+
 // Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
