@@ -22,6 +22,12 @@ I still didn't print a 22 liters insert or a whole set for a box so just a test 
 - Print! :P
 
 ## Tips
+
+There are three main goals:
+1. nice finish of the bottom layers
+2. stiff walls
+3. wall layer adhesion
+
 The initial values for bottom and wall thickness are base on my settings for a 0.4mm nozzle with a 0.3mm layer height.
 
 I do 3 bottom layers.
@@ -30,9 +36,9 @@ My first layer is set to 90% so 0.3 * 0.9 + 2 * 0.3 = 0.87.
 That's where the values come from.
 
 I have the best printing results with these setting because that way I get two perimeter lines for the outer walls
-and the grid walls.
+and the grid walls. (40% perimeter overlap allowed.)
 
-I also tried using a 0.8mm nozzle with just one line for the walls. Layer adhesion was pretty good with litterally no cooling
+I also tried using a 0.8mm nozzle with just one line for the walls. Layer adhesion was pretty good with literally no cooling
 (10% fan speed) but I had issues with the moving paths and retractions leading to non-touching walls so I can't recommend this.
 
 I am still playing with the print settings to get a nice bottom finish and good wall adhesion. Still I think two perimeters for a wall are better than printing just one wall line.
