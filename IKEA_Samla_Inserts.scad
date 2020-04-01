@@ -30,7 +30,7 @@ Halve = "false"; // ["false":false, "column":column, "row":row]
 
 /* [Layer marking] */
 // Layer marking
-Layer_Marking = "true"; // ["false":false, "true":true]
+Layer_Marking = "false"; // ["false":false, "inside":inside, "outside":outside]
 
 // Layer marking position(s)
 Layer_Marking_Positions = 15; // [0:none, 1:ul, 2:ur, 3:ul+ur, 4:ll, 5:ul+ll, 6:ur+ll, 7:ul+ur+ll, 8:lr, 9:ul+lr, 10:ur+lr, 11:ul+ur+lr, 12:ll+lr, 13:ul+ll+lr, 14:ur+ll+lr, 15:ul+ur+ll+lr]
@@ -194,17 +194,20 @@ module Layer_Marking_Text_Single(width, depth, height, diameter, position)
     width_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 22-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0) : 24-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0);
     depth_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 16-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1) : 18-(Active_Layer/2-1);
 
+    bottom_offset = Layer_Marking == "inside" ? Bottom_Thickness : 0;
+    rotate_y = Layer_Marking == "outside" ? 180 : 0;
+
     if (position == 1) {
-        translate([-width/2+width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) rotate(180) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 2) {
-        translate([width/2-width_offset, depth/2-depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) rotate(180) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 4) {
-        translate([-width/2+width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 8) {
-        translate([width/2-width_offset, -depth/2+depth_offset, (Bottom_Thickness)+(height/Layers)*(Active_Layer-1)]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
 }
 
@@ -274,16 +277,23 @@ module Layer_Marking_Text(width, depth, height, diameter) {
 }
 
 module Layer_Marking(width, depth, height, diameter) {
-    if (Layer_Marking == "true" && Layer_Marking_Positions != 0) {
+    if ((Layer_Marking == "inside" || Layer_Marking == "outside") && Layer_Marking_Positions != 0) {
         if (Layer_Marking_Type == "engrave") {
             difference() {
                 children();
-                translate([0, 0, -Layer_Marking_Height]) Layer_Marking_Text(width, depth, height, diameter);
+                if (Layer_Marking == "inside") {
+                    translate([0, 0, -Layer_Marking_Height]) Layer_Marking_Text(width, depth, height, diameter);
+                }
+                else if (Layer_Marking == "outside") {
+                    translate([0, 0, +Layer_Marking_Height]) Layer_Marking_Text(width, depth, height, diameter);
+                }
             }
         }
         else if (Layer_Marking_Type == "emboss") {
             children();
-            #Layer_Marking_Text(width, depth, height, diameter);
+            if (Layer_Marking == "inside") {
+                Layer_Marking_Text(width, depth, height, diameter);
+            }            
         }
     }
     else
