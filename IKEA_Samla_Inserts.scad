@@ -83,7 +83,7 @@ Test_Offset = 5;
 // VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
 22_width = 328;
 22_depth = 218;
-22_height = 255;
+22_height = 256;
 22_scale_width = 1.125;
 22_scale_depth = 1.135;
 22_width_handle = 17;
