@@ -11,11 +11,9 @@ OpenSCAD script to generate inserts for IKEA Samla boxes
 ## WARNING!!! WIP!!!
 This is still work-in-progress! Pull requests welcome!
 
-I did a lot of test prints and now the 5 liters seems to be really good.
+I did a lot of test prints and finally I printed a whole set for each box size!
 
-11 liters are also find, maybe a little more fine tuning needed.
-
-I still didn't print a 22 liters insert or a whole set for a box so just a test print which looks promising.
+Measures look good, very good to me, no great adjustments needed anymore! Happy printing!
 
 ## Usage
 - Get and install [OpenSCAD](https://www.openscad.org/).
