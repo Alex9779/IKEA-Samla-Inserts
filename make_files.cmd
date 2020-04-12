@@ -13,12 +13,12 @@ SET /p halve="Halve (false, column, row): "
 SET /p wall="Wall thickness: "
 SET /p bott="Bottom thickness: "
 SET /p layermark="Layer marking (false, inside, outside): "
-SET layermarkpos=0
+SET layermarkpos=15
 SET layermarktype=engrave
 SET layermarkheight=0.3
-IF %layermark% EQU true SET /p layermarkpos="Layer marking positions (15 = all corners): "
-IF %layermark% EQU true SET /p layermarktype="Layer marking type (engrave, emboss): "
-IF %layermark% EQU true SET /p layermarkheight="Layer marking height: "
+IF %layermark% NEQ false SET /p layermarkpos="Layer marking positions (15 = all corners): "
+IF %layermark% NEQ false SET /p layermarktype="Layer marking type (engrave, emboss): "
+IF %layermark% NEQ false SET /p layermarkheight="Layer marking height: "
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%cols%x%rows%_%wall%x%bott%_%%L-%layers%.stl
 ECHO Generating '!filename!'
