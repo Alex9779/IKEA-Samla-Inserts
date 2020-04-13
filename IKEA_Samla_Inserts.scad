@@ -1,8 +1,8 @@
 // Box size
 Box_Size = "5"; // ["5":5 liters,"11":11 liters,"22":22 liters]
 
-// Layer to generate (boxes get wider to the top so)
-Active_Layer = 1; // [1:10]
+// Layer to generate (boxes get wider to the top so), 0 to generate all layers at once.
+Active_Layer = 0; // [0:10] 
 
 // Inserts per box (one insert is a layer)
 Layers = 3; // [1:10]
@@ -21,9 +21,6 @@ Cell_Rows = 2; // [1:10]
 
 // Additional spacing between box and insert
 Addtional_Spacing = 1;
-
-// Resolution used to render curved surfaces (experiment with low resolutions, and render the final results with higher resolution settings)
-Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
 // Halve (just print half a layer)
 Halve = "false"; // ["false":false, "column":column, "row":row]
@@ -96,7 +93,9 @@ Test_Offset = 5;
 22_diameter = 18;
 22_diameter2 = 12;
 
-module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
+Resolution = $preview ? 30 : 120;
+
+module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout) {
     hull() {
         if (Halve == "false") {
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
@@ -119,8 +118,8 @@ module Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout) {
     }
 }
 
-module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
-    if ((height/Layers)*(Active_Layer-1)<handle_cutout_height) {
+module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
+    if ((height/Layers)*(layer-1)<handle_cutout_height) {
         // cutout
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
             offset(Addtional_Spacing-offset) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
@@ -148,17 +147,17 @@ module Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, wid
     }
 }
 
-module Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
+module Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
     difference() {
         linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-            offset(delta=-Addtional_Spacing+offset) Samla_Base(width, depth, height, diameter, width_cutout, scale_cutout);
+            offset(delta=-Addtional_Spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
         }
-        Samla_HandleAndCutout(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
+        Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
     }
 
 }
 
-module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, scale_depth) {
+module Grid(layer, width, depth, height, columns, rows, wall_thickness, scale_width, scale_depth) {
     if (Halve == "false" || Halve == "row") {
         for (i=[-(columns/2-1):1:columns/2-1]) {
             translate([i*((width-wall_thickness-2*Addtional_Spacing)/columns), 0, height/2])
@@ -188,111 +187,111 @@ module Grid(width, depth, height, columns, rows, wall_thickness, scale_width, sc
     }
 }
 
-module Layer_Marking_Text_Single(width, depth, height, diameter, position)
+module Layer_Marking_Text_Single(layer, width, depth, height, diameter, position)
 {
     size = Cell_Columns >= 6 || Cell_Rows >= 6 ? 10-(max(Cell_Columns, Cell_Rows)-3) : 10;
-    width_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 22-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0) : 24-(Active_Layer/2-1)+(Cell_Columns <= 4 && Active_Layer == 10 ? 5 : 0);
-    depth_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 16-(max(Cell_Columns, Cell_Rows)-4)-(Active_Layer/2-1) : 18-(Active_Layer/2-1);
+    width_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 22-(max(Cell_Columns, Cell_Rows)-4)-(layer/2-1)+(Cell_Columns <= 4 && layer == 10 ? 5 : 0) : 24-(layer/2-1)+(Cell_Columns <= 4 && layer == 10 ? 5 : 0);
+    depth_offset = Cell_Columns >= 6 || Cell_Rows >= 6 ? 16-(max(Cell_Columns, Cell_Rows)-4)-(layer/2-1) : 18-(layer/2-1);
 
     bottom_offset = Layer_Marking == "inside" ? Bottom_Thickness : 0;
     rotate_y = Layer_Marking == "outside" ? 180 : 0;
 
     if (position == 1) {
-        translate([-width/2+width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 2) {
-        translate([width/2-width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 4) {
-        translate([-width/2+width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 8) {
-        translate([width/2-width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(Active_Layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(Active_Layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
 }
 
-module Layer_Marking_Text(width, depth, height, diameter) {
+module Layer_Marking_Text(layer, width, depth, height, diameter) {
     if (Layer_Marking_Positions == 1) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
     }
     else if (Layer_Marking_Positions == 2) {
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
     }
     else if (Layer_Marking_Positions == 3) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
     }
     else if (Layer_Marking_Positions == 4) {
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_Marking_Positions == 5) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_Marking_Positions == 6) {
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 4);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_Marking_Positions == 7) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_Marking_Positions == 8) {
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 9) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 10) {
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 11) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 12) {
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 13) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 14) {
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_Marking_Positions == 15) {
-        if (Halve == "false") Layer_Marking_Text_Single(width, depth, height, diameter, 1);
-        if (Halve != "row") Layer_Marking_Text_Single(width, depth, height, diameter, 2);
-        if (Halve != "column") Layer_Marking_Text_Single(width, depth, height, diameter, 4);
-        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
+        if (Halve == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Halve != "row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Halve != "column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
 }
 
-module Layer_Marking(width, depth, height, diameter) {
+module Layer_Marking(layer, width, depth, height, diameter) {
     if ((Layer_Marking == "inside" || Layer_Marking == "outside") && Layer_Marking_Positions != 0) {
         if (Layer_Marking_Type == "engrave") {
             difference() {
                 children();
                 if (Layer_Marking == "inside") {
-                    translate([0, 0, -Layer_Marking_Height]) Layer_Marking_Text(width, depth, height, diameter);
+                    translate([0, 0, -Layer_Marking_Height]) Layer_Marking_Text(layer, width, depth, height, diameter);
                 }
                 else if (Layer_Marking == "outside") {
-                    translate([0, 0, +Layer_Marking_Height]) Layer_Marking_Text(width, depth, height, diameter);
+                    translate([0, 0, +Layer_Marking_Height]) Layer_Marking_Text(layer, width, depth, height, diameter);
                 }
             }
         }
         else if (Layer_Marking_Type == "emboss") {
             children();
             if (Layer_Marking == "inside") {
-                Layer_Marking_Text(width, depth, height, diameter);
+                Layer_Marking_Text(layer, width, depth, height, diameter);
             }            
         }
     }
@@ -302,38 +301,38 @@ module Layer_Marking(width, depth, height, diameter) {
     }
 }
 
-module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
-    translate([0, 0, -(height/Layers)*(Active_Layer-1)]) {
+module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
+    translate([0, 0, -(height/Layers)*(layer-1)]) {
         intersection() {
             union() {
                 if (Test == "false") {
                     // generate grid in inner box shape
                     if (Cell_Columns>1 || Cell_Rows>1) {
                         intersection() {
-                            Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            Grid(width, depth, height, Cell_Columns, Cell_Rows, Wall_Thickness, scale_width, scale_depth);
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                            Grid(layer, width, depth, height, Cell_Columns, Cell_Rows, Wall_Thickness, scale_width, scale_depth);
                         }
                     }
                     // generate bottom
-                    Layer_Marking(width, depth, height, diameter) {
+                    Layer_Marking(layer, width, depth, height, diameter) {
                         intersection() {
-                            Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                            translate([0, 0, (Bottom_Thickness/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_Thickness], true);
                         }
                     }
                     // generate surrounding wall
                     difference() {
-                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                        Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_Thickness);
+                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_Thickness);
                     }
                 }
                 else if (Test == "true") {
-                    Samla_Content(width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
                 }
             }
             if (Test == "false") {
                 // remove everything not needed for current layer
-                translate([0, 0, (height/Layers/2)+(height/Layers)*(Active_Layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
+                translate([0, 0, (height/Layers/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
             }
             else if (Test == "true") {
                 translate([width-width_handle-Addtional_Spacing-Test_Offset, -depth*scale_depth/2-(depth_handle+Addtional_Spacing*2)*scale_handle/2+diameter2+Test_Offset, height/2]) cube([width, depth*scale_depth, height], true);
@@ -343,17 +342,24 @@ module Create_Samla_Insert(width, depth, height, scale_width, scale_depth, width
     }
 }
 
-if (Active_Layer <= Layers) {
+start_layer = Active_Layer == 0 ? 1 : Active_Layer;
+end_layer = Active_Layer == 0 ? Layers : Active_Layer;
+
+for ( layer = [ start_layer : end_layer ] )
+{
     if (Box_Size == "5")
     {
-        Create_Samla_Insert(5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2, Resolution);
+        translate( [ 0, layer * 5_depth * 5_scale_depth,0] )
+            Create_Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2, Resolution);
     }
     else if (Box_Size == "11")
     {
-        Create_Samla_Insert(11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2, Resolution);
+        translate( [ 0, layer * 11_depth * 11_scale_depth,0] )
+            Create_Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2, Resolution);
     }
     else if (Box_Size == "22")
     {
-        Create_Samla_Insert(22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2, Resolution);
+        translate( [ 0, layer * 22_depth * 22_scale_depth, 0,0] )
+            Create_Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2, Resolution);
     }
 }
