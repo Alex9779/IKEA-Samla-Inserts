@@ -23,7 +23,7 @@ Cell_Rows = 2; // [1:10]
 Addtional_Spacing = 1;
 
 // Part (just print part of a layer, halve or quarter)
-Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quater":quater]
+Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
 
 /* [Layer marking] */
 // Layer marking
