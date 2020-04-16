@@ -26,7 +26,7 @@ Addtional_Spacing = 1;
 Resolution = 30; // [30:Low (12 degrees), 60:Medium (6 degrees), 120:High (3 degrees)]
 
 // Part (just print part of a layer, halve or quarter)
-Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quater":quater]
+Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
 
 /* [Layer marking] */
 // Layer marking
