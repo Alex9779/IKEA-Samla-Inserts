@@ -360,12 +360,12 @@ for ( layer = [ start_layer : end_layer ] )
 {
     if (Box_Size == "5")
     {
-        translate( [ 0, ( layer - start_layer ) * 5_depth * 5_scale_depth,0] )
+        translate( [ 0, ( layer - start_layer ) * 5_depth * 5_scale_depth, 0] )
             Create_Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2, Resolution);
     }
     else if (Box_Size == "11")
     {
-        translate( [ 0, ( layer - start_layer ) * 11_depth * 11_scale_depth,0] )
+        translate( [ 0, ( layer - start_layer ) * 11_depth * 11_scale_depth, 0] )
             Create_Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2, Resolution);
     }
     else if (Box_Size == "22")
