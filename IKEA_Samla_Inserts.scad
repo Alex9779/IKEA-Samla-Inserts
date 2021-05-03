@@ -89,7 +89,7 @@ Test_Offset = 5;
 22_depth_cutout = 2.5;
 22_scale_handle = 0.74;
 22_scale_cutout = 0.86;
-22_handle_cutout_height = 207;
+22_handle_cutout_height = 230;
 22_diameter = 18;
 22_diameter2 = 12;
 
