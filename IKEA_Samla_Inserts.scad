@@ -25,6 +25,11 @@ Addtional_Spacing = 1;
 // Part (just print part of a layer, halve or quarter)
 Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
 
+// TopLayerCutouts
+// full TopLayerCutouts are easier to print (no support needed)
+// partial cutouts let the top layer rest on the handle-cutouts
+TopLayerCutouts = "full"; //["full": full, "partial": partial]
+
 /* [Layer marking] */
 // Layer marking
 Layer_Marking = "false"; // ["false":false, "inside":inside, "outside":outside]
@@ -37,11 +42,6 @@ Layer_Marking_Type = "engrave"; // ["engrave":engrave, "emboss":emboss]
 
 // Layer marking height
 Layer_Marking_Height = 0.3;
-
-// Cutouts
-// full cutouts are easier to print (no support needed)
-// correct cutouts let the top layer rest on the handle-cutouts
-Cutouts = "full"; //["full": full, "correct", correct]
 
 /* [Hidden] */
 Test = "false";
@@ -132,14 +132,14 @@ module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cut
 module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
     if ((height/Layers)*(layer-1)<handle_cutout_height) {
         // cutout
-        linear_extrude(height=(Cutouts=="full"? height:handle_cutout_height), scale=[scale_cutout, scale_depth]) {
+        linear_extrude(height=(TopLayerCutouts=="full"? height:handle_cutout_height), scale=[scale_cutout, scale_depth]) {
             offset(Addtional_Spacing-offset) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
         }
-        linear_extrude(height=(Cutouts=="full"? height:handle_cutout_height), scale=[scale_cutout, scale_depth]) {
+        linear_extrude(height=(TopLayerCutouts=="full"? height:handle_cutout_height), scale=[scale_cutout, scale_depth]) {
             offset(Addtional_Spacing-offset) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         // handle
-        linear_extrude(height=(Cutouts=="full"? height:handle_cutout_height), scale=[scale_width, scale_handle]) {
+        linear_extrude(height=(TopLayerCutouts=="full"? height:handle_cutout_height), scale=[scale_width, scale_handle]) {
             offset(delta=Addtional_Spacing-offset)
             hull() {
                 translate([-(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
@@ -147,7 +147,7 @@ module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_dep
                 translate([-(width/2-width_handle+diameter2+diameter2/2), 0]) square([diameter2, depth_handle], true);
             }
         }
-        linear_extrude(height=(Cutouts=="full"? height:handle_cutout_height), scale=[scale_width, scale_handle]) {
+        linear_extrude(height=(TopLayerCutouts=="full"? height:handle_cutout_height), scale=[scale_width, scale_handle]) {
             offset(delta=Addtional_Spacing-offset)
             hull() {
                 translate([(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
@@ -338,7 +338,7 @@ module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth
                     }
                     // generate surrounding wall
                     difference() {
-                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height-(Cutouts=="correct"?Bottom_Thickness:0), diameter, diameter2, 0);
+                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height-(TopLayerCutouts=="partial"?Bottom_Thickness:0), diameter, diameter2, 0);
                         Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_Thickness);
                     }
                 }
