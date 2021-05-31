@@ -42,6 +42,8 @@ Layer_Marking_Type = "engrave"; // ["engrave":engrave, "emboss":emboss]
 // Layer marking height
 Layer_Marking_Height = 0.3;
 
+Custom_Layer_Mark = "";
+
 /* [Hidden] */
 Test = "false";
 Test_Offset = 5;
@@ -215,18 +217,19 @@ module Layer_Marking_Text_Single(layer, width, depth, height, diameter, position
 
     bottom_offset = Layer_Marking == "inside" ? Bottom_Thickness : 0;
     rotate_y = Layer_Marking == "outside" ? 180 : 0;
+    mark = Custom_Layer_Mark != "" ? Custom_Layer_Mark : str(layer, "-", Layers);
 
     if (position == 1) {
-        translate([-width/2+width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=mark, size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 2) {
-        translate([width/2-width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, depth/2-depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 180]) linear_extrude(height=Layer_Marking_Height) text(text=mark, size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 4) {
-        translate([-width/2+width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([-width/2+width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=mark, size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
     else if (position == 8) {
-        translate([width/2-width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=str(layer, "-", Layers), size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
+        translate([width/2-width_offset, -depth/2+depth_offset, bottom_offset+(height/Layers)*(layer-1)]) rotate([0, rotate_y, 0]) linear_extrude(height=Layer_Marking_Height) text(text=mark, size=size, font="Lucida Console:style=Regular", halign="center", valign="center", spacing=1.2);
     }
 }
 
