@@ -345,7 +345,7 @@ module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth
                     }
                     // generate surrounding wall
                     difference() {
-                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height-(Top_Layer_Cutouts=="partial"?Bottom_Thickness:0), diameter, diameter2, 0);
+                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
                         Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_Thickness);
                     }
                 }
