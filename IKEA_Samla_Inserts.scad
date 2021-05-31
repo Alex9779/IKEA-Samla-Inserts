@@ -158,15 +158,23 @@ module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_dep
 }
 
 module Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
-    difference() {
-        linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-            offset(delta=-Addtional_Spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
+    union() {
+        difference() {
+            linear_extrude(height=height, scale = [scale_width, scale_depth]) {
+                offset(delta=-Addtional_Spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
+            }
+            Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
         }
-        Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
+        if (Top_Layer_Cutouts == "partial") {
+            intersection() {
+                translate([0, 0, height-(height-handle_cutout_height)/2+(offset!=0?Bottom_Thickness:0)]) cube([width*scale_width, depth*scale_depth, height-handle_cutout_height], true);
+                linear_extrude(height=height, scale = [scale_width, scale_depth]) {
+                        offset(delta=-Addtional_Spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
+                }
+            }
+        }
     }
-
 }
-
 
 module Grid(layer, width, depth, height, columns, rows, wall_thickness, scale_width, scale_depth) {
     if (Part == "false" || Part == "halve_row") {
