@@ -6,7 +6,7 @@ OpenSCAD script to generate inserts for IKEA Samla boxes
 - adjustable grid
 - adjustable bottom thickness and wall thickness
 - splittable insert layers (halve and quarter possible)
-- engraving or embossing of layer marks (toggleable)
+- engraving or embossing of layer marks (toggleable and customizable)
 
 ## WARNING!!! WIP!!!
 This is still work-in-progress! Pull requests welcome!
@@ -14,6 +14,8 @@ This is still work-in-progress! Pull requests welcome!
 I did a lot of test prints and finally I printed a whole set for each box size!
 
 Measures look good, very good to me, no great adjustments needed anymore! Happy printing!
+
+But this does not mean it is perfect for your printer, print settings and material!
 
 ## Usage
 - Get and install [OpenSCAD](https://www.openscad.org/).
