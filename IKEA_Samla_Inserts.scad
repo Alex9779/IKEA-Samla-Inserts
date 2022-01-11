@@ -1,10 +1,10 @@
 Box_size = "5"; // ["5":5 liters,"11":11 liters,"22":22 liters]
 
-// Layer to generate (boxes get wider to the top so), 0 to generate all layers at once.
-Active_layer = 1; // [0:10] 
-
 // Inserts per box (one insert is a layer)
 Layers = 3; // [1:10]
+
+// Layer to generate (boxes get wider to the top so), 0 to generate all layers at once.
+Active_layer = 1; // [0:10] 
 
 // Adjust to your nozzle extrusion width
 Wall_thickness = 0.75;
