@@ -6,26 +6,11 @@ Layers = 3; // [1:10]
 // Layer to generate (boxes get wider to the top so), 0 to generate all layers at once.
 Active_layer = 1; // [0:10] 
 
-// Adjust to your nozzle extrusion width
-Wall_thickness = 0.75;
-
-// Adjust to your first layer height and layer height
-Bottom_thickness = 0.87;
-
 // Amount of cells in larger box dimension
 Cell_columns = 2; // [1:10]
 
 // Amount of cells in smaller box dimension
 Cell_rows = 2; // [1:10]
-
-// Additional spacing between box and insert
-Addtional_spacing = 1;
-
-// Just print part of a layer, halve or quarter
-Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
-
-// Full are easier to print (no support needed), partial cutouts let the top layer rest on the handle-cutouts
-Top_layer_cutouts = "full"; // ["full": full, "partial": partial]
 
 /* [Layer marking] */
 Layer_marking = "false"; // ["false":false, "inside":inside, "outside":outside]
@@ -37,6 +22,22 @@ Layer_marking_type = "engrave"; // ["engrave":engrave, "emboss":emboss]
 Layer_marking_height = 0.3;
 
 Custom_layer_mark = "";
+
+/* [Advanced settings] */
+// Adjust to your nozzle extrusion width
+Wall_thickness = 0.75;
+
+// Adjust to your first layer height and layer height
+Bottom_thickness = 0.87;
+
+// Additional spacing between box and insert
+Addtional_spacing = 1;
+
+// Just print part of a layer, halve or quarter
+Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
+
+// Full are easier to print (no support needed), partial cutouts let the top layer rest on the handle-cutouts
+Top_layer_cutouts = "full"; // ["full": full, "partial": partial]
 
 /* [Hidden] */
 Test = "false";
