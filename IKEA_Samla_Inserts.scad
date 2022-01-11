@@ -24,6 +24,9 @@ Layer_marking_height = 0.3;
 Custom_layer_mark = "";
 
 /* [Advanced settings] */
+// Combines active layer with N layers above
+Combine_layers = 0; // [0:10]
+
 // Adjust to your nozzle extrusion width
 Wall_thickness = 0.75;
 
@@ -353,7 +356,7 @@ module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth
             }
             if (Test == "false") {
                 // remove everything not needed for current layer
-                translate([0, 0, (height/Layers/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, height/Layers], true);
+                translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
             }
             else if (Test == "true") {
                 translate([width-width_handle-Addtional_spacing-Test_offset, -depth*scale_depth/2-(depth_handle+Addtional_spacing*2)*scale_handle/2+diameter2+Test_offset, height/2]) cube([width, depth*scale_depth, height], true);
