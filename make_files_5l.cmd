@@ -3,7 +3,7 @@ SETLOCAL ENABLEEXTENSIONS
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 REM set resolution
-SET res=120
+SET res=64
 
 REM 2x2 2 layers
 SET boxsize=5
@@ -22,7 +22,7 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
 
 REM REM 2x2 3 layers
@@ -42,7 +42,7 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
 
 REM REM 3x3 3 layers
@@ -62,7 +62,7 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
 
 REM REM 3x3 4 layers
@@ -82,7 +82,7 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
 
 REM REM 3x3 5 layers
@@ -102,7 +102,7 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
 
 REM REM 10x2 10 layers
@@ -122,5 +122,5 @@ MKDIR %dirname%
 FOR /L %%L IN (1,1,%layers%) DO (
 SET filename=IKEA_Samla_Inserts_%boxsize%l_%%L-%layers%_%cols%x%rows%_%wall%x%bott%.stl
 ECHO Generating '!filename!'
-"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Active_Layer=%%L;Layers=%layers%;Cell_Columns=%cols%;Cell_Rows=%rows%;Resolution=%res%;Wall_Thickness=%wall%;Bottom_Thickness=%bott%;Part=\"%part%\";Layer_Marking=\"%layermark%\";Layer_Marking_Position=%layermarkpos%;Layer_Marking_Type=\"%layermarktype%\";Layer_Marking_Height=%layermarkheight%;Test=\"false\"" IKEA_Samla_Inserts.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o %dirname%\!filename! -D "Box_Size=\"%boxsize%\";Layers=%layers%;Active_layer=%%L;Cell_columns=%cols%;Cell_rows=%rows%;Part=\"%part%\";Layer_marking=\"%layermark%\";Layer_marking_position=%layermarkpos%;Layer_marking_type=\"%layermarktype%\";Layer_marking_height=%layermarkheight%;Wall_thickness=%wall%;Bottom_thickness=%bott%;Resolution=%res%" IKEA_Samla_Inserts.scad
 )
