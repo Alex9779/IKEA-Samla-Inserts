@@ -97,9 +97,9 @@ Test_offset = 5;
 22_diameter = 18;
 22_diameter2 = 12;
 
-Resolution = $preview ? 30 : 120;
+Resolution = $preview ? 32 : 64;
 
-module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout) {
+module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout, $fn = Resolution) {
     hull() {
         if (Part == "false") {
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
@@ -128,14 +128,14 @@ module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cut
     }
 }
 
-module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset) {
+module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset, $fn = Resolution) {
     if ((height/Layers)*(layer-1)<handle_cutout_height) {
         // cutout
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
-            offset(Addtional_spacing-offset) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
+            offset(Addtional_spacing-offset, $fn = Resolution/4) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
-            offset(Addtional_spacing-offset) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
+            offset(Addtional_spacing-offset, $fn = Resolution/4) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         // handle
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
@@ -374,16 +374,16 @@ for ( layer = [ start_layer : end_layer ] )
     if (Box_size == "5")
     {
         translate( [ 0, ( layer - start_layer ) * 5_depth * 5_scale_depth, 0] )
-            Create_Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2, Resolution);
+            Create_Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2);
     }
     else if (Box_size == "11")
     {
         translate( [ 0, ( layer - start_layer ) * 11_depth * 11_scale_depth, 0] )
-            Create_Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2, Resolution);
+            Create_Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2);
     }
     else if (Box_size == "22")
     {
         translate( [ 0, ( layer - start_layer ) * 22_depth * 22_scale_depth, 0] )
-            Create_Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2, Resolution);
+            Create_Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2);
     }
 }
