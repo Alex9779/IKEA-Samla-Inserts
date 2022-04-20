@@ -34,7 +34,7 @@ Wall_thickness = 0.75;
 Bottom_thickness = 0.87;
 
 // Additional spacing between box and insert
-Addtional_spacing = 1;
+Additional_spacing = 1;
 
 // Just print part of a layer, halve or quarter
 Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":halve by row, "quarter":quarter]
@@ -108,22 +108,22 @@ module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cut
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
         else if (Part == "halve_column") {
-            translate([0-Addtional_spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
-            translate([0-Addtional_spacing/2, depth/2-diameter]) square(diameter, false);
+            translate([0-Additional_spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
+            translate([0-Additional_spacing/2, depth/2-diameter]) square(diameter, false);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
             translate([width/2-diameter, depth/2-diameter]) circle(diameter);
         }
         else if (Part == "halve_row") {
-            translate([-(width/2-diameter)-diameter, Addtional_spacing/2-diameter]) square(diameter, false);
+            translate([-(width/2-diameter)-diameter, Additional_spacing/2-diameter]) square(diameter, false);
             translate([-(width/2-diameter), -(depth/2-diameter)]) circle(diameter);
-            translate([width/2-diameter, Addtional_spacing/2-diameter]) square(diameter, false);
+            translate([width/2-diameter, Additional_spacing/2-diameter]) square(diameter, false);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
         }
         else if (Part == "quarter") {
-            translate([0-Addtional_spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
-            translate([0-Addtional_spacing/2, Addtional_spacing/2-diameter]) square(diameter, false);
+            translate([0-Additional_spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
+            translate([0-Additional_spacing/2, Additional_spacing/2-diameter]) square(diameter, false);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
-            translate([width/2-diameter, Addtional_spacing/2-diameter]) circle(diameter);
+            translate([width/2-diameter, Additional_spacing/2-diameter]) circle(diameter);
         }
     }
 }
@@ -132,14 +132,14 @@ module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_dep
     if ((height/Layers)*(layer-1)<handle_cutout_height) {
         // cutout
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
-            offset(Addtional_spacing-offset, $fn = Resolution/4) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
+            offset(Additional_spacing-offset, $fn = Resolution/4) translate([0, depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         linear_extrude(height=height, scale=[scale_cutout, scale_depth]) {
-            offset(Addtional_spacing-offset, $fn = Resolution/4) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
+            offset(Additional_spacing-offset, $fn = Resolution/4) translate([0, -depth/2]) square([width_cutout, depth_cutout*2], true);
         }
         // handle
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
-            offset(delta=Addtional_spacing-offset)
+            offset(delta=Additional_spacing-offset)
             hull() {
                 translate([-(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
                 translate([-(width/2-width_handle+diameter2), depth_handle/2-diameter2]) circle(diameter2);
@@ -147,7 +147,7 @@ module Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_dep
             }
         }
         linear_extrude(height=height, scale=[scale_width, scale_handle]) {
-            offset(delta=Addtional_spacing-offset)
+            offset(delta=Additional_spacing-offset)
             hull() {
                 translate([(width/2-width_handle+diameter2), -(depth_handle/2-diameter2)]) circle(diameter2);
                 translate([(width/2-width_handle+diameter2), depth_handle/2-diameter2]) circle(diameter2);
@@ -161,7 +161,7 @@ module Samla_Content(layer, width, depth, height, scale_width, scale_depth, widt
     union() {
         difference() {
             linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-                offset(delta=-Addtional_spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
+                offset(delta=-Additional_spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
             }
             Samla_HandleAndCutout(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, offset);
         }
@@ -169,7 +169,7 @@ module Samla_Content(layer, width, depth, height, scale_width, scale_depth, widt
             intersection() {
                 translate([0, 0, height-(height-handle_cutout_height)/2+(offset!=0?Bottom_thickness:0)]) cube([width*scale_width, depth*scale_depth, height-handle_cutout_height], true);
                 linear_extrude(height=height, scale = [scale_width, scale_depth]) {
-                        offset(delta=-Addtional_spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
+                        offset(delta=-Additional_spacing+offset) Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cutout);
                 }
             }
         }
@@ -180,27 +180,27 @@ module Grid(layer, width, depth, height, columns, rows, Wall_thickness, scale_wi
     if (Part == "false" || Part == "halve_row") {
 
         for (i=[-(columns/2-1):1:columns/2-1]) {
-            translate([i*((width-Wall_thickness-2*Addtional_spacing)/columns), 0, height/2])
+            translate([i*((width-Wall_thickness-2*Additional_spacing)/columns), 0, height/2])
                 cube([Wall_thickness, depth*scale_depth, height], true);
         }
     }
     else if (Part == "halve_column" || Part == "quarter") {
         for (i=[0:1:columns-1]) {
-            translate([i*((width-Wall_thickness-2*Addtional_spacing)/2/columns), 0, height/2])
+            translate([i*((width-Wall_thickness-2*Additional_spacing)/2/columns), 0, height/2])
                 cube([Wall_thickness, depth*scale_depth, height], true);
         }
     }
 
     if (Part == "false" || Part == "halve_column") {
         for (i=[-(rows/2-1):1:rows/2-1]) {
-            translate([0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows), height/2])
+            translate([0, i*((depth-Wall_thickness-2*Additional_spacing)/rows), height/2])
                 rotate([0, 0, 90])
                 cube([Wall_thickness, width*scale_width, height], true);
         }
     }
     else if (Part == "halve_row" || Part == "quarter") {
         for (i=[-rows+1:1:0]) {
-            translate([0, i*((depth-Wall_thickness-2*Addtional_spacing)/2/rows), height/2])
+            translate([0, i*((depth-Wall_thickness-2*Additional_spacing)/2/rows), height/2])
                 rotate([0, 0, 90])
                 cube([Wall_thickness, width*scale_width, height], true);
         }
@@ -359,8 +359,8 @@ module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth
                 translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
             }
             else if (Test == "true") {
-                translate([width-width_handle-Addtional_spacing-Test_offset, -depth*scale_depth/2-(depth_handle+Addtional_spacing*2)*scale_handle/2+diameter2+Test_offset, height/2]) cube([width, depth*scale_depth, height], true);
-                translate([(width*scale_width)/2+(width_cutout*scale_cutout)/2-Test_offset, -depth+depth_cutout+Addtional_spacing+Test_offset, height/2]) cube([width*scale_width, depth, height], true);
+                translate([width-width_handle-Additional_spacing-Test_offset, -depth*scale_depth/2-(depth_handle+Additional_spacing*2)*scale_handle/2+diameter2+Test_offset, height/2]) cube([width, depth*scale_depth, height], true);
+                translate([(width*scale_width)/2+(width_cutout*scale_cutout)/2-Test_offset, -depth+depth_cutout+Additional_spacing+Test_offset, height/2]) cube([width*scale_width, depth, height], true);
             }
         }
     }
