@@ -207,7 +207,7 @@ module Grid(layer, width, depth, height, columns, rows, Wall_thickness, scale_wi
     }
 }
 
-module Layer_marking_Text_Single(layer, width, depth, height, diameter, position)
+module Layer_Marking_Text_Single(layer, width, depth, height, diameter, position)
 {
     size = Cell_columns >= 6 || Cell_rows >= 6 ? 10-(max(Cell_columns, Cell_rows)-3) : 10;
     width_offset = Cell_columns >= 6 || Cell_rows >= 6 ? 22-(max(Cell_columns, Cell_rows)-4)-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0) : 24-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0);
@@ -231,91 +231,91 @@ module Layer_marking_Text_Single(layer, width, depth, height, diameter, position
     }
 }
 
-module Layer_marking_Text(layer, width, depth, height, diameter) {
+module Layer_Marking_Text(layer, width, depth, height, diameter) {
     if (Layer_marking_positions == 1) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
     }
     else if (Layer_marking_positions == 2) {
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
     }
     else if (Layer_marking_positions == 3) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
     }
     else if (Layer_marking_positions == 4) {
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_marking_positions == 5) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_marking_positions == 6) {
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
     }
     else if (Layer_marking_positions == 7) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
 
     }
     else if (Layer_marking_positions == 8) {
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 9) {
 
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 10) {
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 11) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        Layer_marking_Text_Single(width, depth, height, diameter, 8);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        Layer_Marking_Text_Single(width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 12) {
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 13) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 14) {
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
     }
     else if (Layer_marking_positions == 15) {
-        if (Part == "false") Layer_marking_Text_Single(layer, width, depth, height, diameter, 1);
-        if (Part != "halve_row") Layer_marking_Text_Single(layer, width, depth, height, diameter, 2);
-        if (Part != "halve_column") Layer_marking_Text_Single(layer, width, depth, height, diameter, 4);
-        Layer_marking_Text_Single(layer, width, depth, height, diameter, 8);
+        if (Part == "false") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 1);
+        if (Part != "halve_row") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 2);
+        if (Part != "halve_column") Layer_Marking_Text_Single(layer, width, depth, height, diameter, 4);
+        Layer_Marking_Text_Single(layer, width, depth, height, diameter, 8);
 
     }
 }
 
-module Layer_marking(layer, width, depth, height, diameter) {
+module Layer_Marking(layer, width, depth, height, diameter) {
     if ((Layer_marking == "inside" || Layer_marking == "outside") && Layer_marking_positions != 0) {
         if (Layer_marking_type == "engrave") {
             difference() {
                 children();
                 if (Layer_marking == "inside") {
-                    translate([0, 0, -Layer_marking_height]) Layer_marking_Text(layer, width, depth, height, diameter);
+                    translate([0, 0, -Layer_marking_height]) Layer_Marking_Text(layer, width, depth, height, diameter);
                 }
                 else if (Layer_marking == "outside") {
-                    translate([0, 0, +Layer_marking_height]) Layer_marking_Text(layer, width, depth, height, diameter);
+                    translate([0, 0, +Layer_marking_height]) Layer_Marking_Text(layer, width, depth, height, diameter);
                 }
             }
         }
         else if (Layer_marking_type == "emboss") {
             children();
             if (Layer_marking == "inside") {
-                Layer_marking_Text(layer, width, depth, height, diameter);
+                Layer_Marking_Text(layer, width, depth, height, diameter);
             }            
         }
     }
@@ -325,7 +325,7 @@ module Layer_marking(layer, width, depth, height, diameter) {
     }
 }
 
-module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
+module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
     translate([0, 0, -(height/Layers)*(layer-1)]) {
         intersection() {
             union() {
@@ -338,7 +338,7 @@ module Create_Samla_Insert(layer, width, depth, height, scale_width, scale_depth
                         }
                     }
                     // generate bottom
-                    Layer_marking(layer, width, depth, height, diameter) {
+                    Layer_Marking(layer, width, depth, height, diameter) {
                         intersection() {
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
                             translate([0, 0, (Bottom_thickness/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_thickness], true);
@@ -374,16 +374,16 @@ for ( layer = [ start_layer : end_layer ] )
     if (Box_size == "5")
     {
         translate( [ 0, ( layer - start_layer ) * 5_depth * 5_scale_depth, 0] )
-            Create_Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2);
+            Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2);
     }
     else if (Box_size == "11")
     {
         translate( [ 0, ( layer - start_layer ) * 11_depth * 11_scale_depth, 0] )
-            Create_Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2);
+            Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2);
     }
     else if (Box_size == "22")
     {
         translate( [ 0, ( layer - start_layer ) * 22_depth * 22_scale_depth, 0] )
-            Create_Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2);
+            Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2);
     }
 }
