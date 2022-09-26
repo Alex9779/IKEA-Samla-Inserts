@@ -23,6 +23,13 @@ Layer_marking_height = 0.3;
 
 Custom_layer_mark = "";
 
+/* [Fillets] */
+// Fillets at the bottom of cells
+Fillets = "false"; // ["false":false, "x":x, "y":y]
+
+// Fillet radius
+Fillet_radius = 10;
+
 /* [Advanced settings] */
 // Combines active layer with N layers above
 Combine_layers = 0; // [0:10]
@@ -207,7 +214,50 @@ module Grid(layer, width, depth, height, columns, rows, Wall_thickness, scale_wi
     }
 }
 
-module Layer_Marking_Text_Single(layer, width, depth, height, diameter, position)
+module Fillet(positionX, positionY, width, radius, rotZ = 0, $fn = Resolution){
+	translate([positionX, positionY, radius/2]){
+        rotate([0, 90, rotZ]) {
+            difference(){                
+                cube(size=[radius, radius, width], center = true);
+                translate([-radius/2, -radius/2, 0]) {
+                    cylinder(h = width, r = radius, center = true);
+                }
+            }
+        }
+	}
+}
+
+module Fillets(layer, width, depth, height, columns, rows, Wall_thickness, scale_width, scale_depth) {
+    if (Fillets == "x") {
+        translate([0, 0, height/Layers*(layer-1)+Bottom_thickness]) {
+            for (i=[-rows/2+1:1:rows/2-1]) {
+                if (i == -rows/2+1) {
+                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)-Wall_thickness/2-Fillet_radius/2, width*scale_width, Fillet_radius, 0);
+                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
+                }
+                else {
+                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
+                }
+            }
+        }
+    }
+    
+    if (Fillets == "y") {
+        translate([0, 0, height/Layers*(layer-1)+Bottom_thickness]) {
+            for (i=[-columns/2+1:1:columns/2-1]) {
+                if (i == -columns/2+1) {
+                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)-Wall_thickness/2-Fillet_radius/2, 0, width*scale_width, Fillet_radius, -90);
+                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
+                }
+                else {
+                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
+                }
+            }
+        }
+    }
+}
+
+module Layer_marking_Text_Single(layer, width, depth, height, diameter, position)
 {
     size = Cell_columns >= 6 || Cell_rows >= 6 ? 10-(max(Cell_columns, Cell_rows)-3) : 10;
     width_offset = Cell_columns >= 6 || Cell_rows >= 6 ? 22-(max(Cell_columns, Cell_rows)-4)-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0) : 24-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0);
@@ -348,6 +398,13 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                     difference() {
                         Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
                         Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_thickness);
+                    }
+                    // generate fillets
+                    if (Fillets != "false") {
+                        intersection() {
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                            Fillets(layer, width, depth, height, Cell_columns, Cell_rows, Wall_thickness, scale_width, scale_depth);
+                        }
                     }
                 }
                 else if (Test == "true") {
