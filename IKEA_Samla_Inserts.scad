@@ -24,6 +24,9 @@ Layer_marking_height = 0.3;
 Custom_layer_mark = "";
 
 /* [Advanced settings] */
+// Set what should be generated
+Generation = "complete"; // ["complete":complete, "gridbottom":grid + bottom, "grid":grid]
+
 // Combines active layer with N layers above
 Combine_layers = 0; // [0:10]
 
@@ -338,16 +341,20 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                         }
                     }
                     // generate bottom
-                    Layer_Marking(layer, width, depth, height, diameter) {
-                        intersection() {
-                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            translate([0, 0, (Bottom_thickness/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_thickness], true);
+                    if (Generation == "complete" || Generation == "gridbottom") {
+                        Layer_Marking(layer, width, depth, height, diameter) {
+                            intersection() {
+                                Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                                translate([0, 0, (Bottom_thickness/2)+(height/Layers)*(layer-1)]) cube([width*scale_width, depth*scale_depth, Bottom_thickness], true);
+                            }
                         }
                     }
                     // generate surrounding wall
-                    difference() {
-                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                        Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_thickness);
+                    if (Generation == "complete") {
+                        difference() {
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_thickness);
+                        }
                     }
                 }
                 else if (Test == "true") {
