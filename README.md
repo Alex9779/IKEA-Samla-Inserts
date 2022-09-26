@@ -8,15 +8,16 @@ OpenSCAD script to generate inserts for IKEA Samla boxes
 - splittable insert layers (halve and quarter possible)
 - engraving or embossing of layer marks (toggleable and customizable)
 - combine layers, useful if you want an even layer count but layers with uneven height ratios
+- adjustable fillets at the bottom of the cells for easier access to small parts
 
-## WARNING!!! WIP!!!
-This is still work-in-progress! Pull requests welcome!
-
+## WARNING!!!
 I did a lot of test prints and finally I printed a whole set for each box size!
 
-Measures look good, very good to me, no great adjustments needed anymore! Happy printing!
+Measures look good, very good to me! Happy printing!
 
 But this does not mean it is perfect for your printer, print settings and material!
+
+There is a hidden "test" option, if set to "true" it generates just a corner from bottom top top of an insert I used to figure out the scaling values.
 
 ## Usage
 - Get and install [OpenSCAD](https://www.openscad.org/).
