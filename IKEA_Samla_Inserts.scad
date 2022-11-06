@@ -235,11 +235,11 @@ module Fillets(layer, width, depth, height, columns, rows, Wall_thickness, scale
         translate([0, 0, height/Layers*(layer-1)+Bottom_thickness]) {
             for (i=[-rows/2+1:1:rows/2-1]) {
                 if (i == -rows/2+1) {
-                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)-Wall_thickness/2-Fillet_radius/2, width*scale_width, Fillet_radius, 0);
-                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
+                    Fillet(0, i*((depth-Wall_thickness-2*Additional_spacing)/rows)-Wall_thickness/2-Fillet_radius/2, width*scale_width, Fillet_radius, 0);
+                    Fillet(0, i*((depth-Wall_thickness-2*Additional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
                 }
                 else {
-                    Fillet(0, i*((depth-Wall_thickness-2*Addtional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
+                    Fillet(0, i*((depth-Wall_thickness-2*Additional_spacing)/rows)+Wall_thickness/2+Fillet_radius/2, width*scale_width, Fillet_radius, 180);
                 }
             }
         }
@@ -249,11 +249,11 @@ module Fillets(layer, width, depth, height, columns, rows, Wall_thickness, scale
         translate([0, 0, height/Layers*(layer-1)+Bottom_thickness]) {
             for (i=[-columns/2+1:1:columns/2-1]) {
                 if (i == -columns/2+1) {
-                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)-Wall_thickness/2-Fillet_radius/2, 0, width*scale_width, Fillet_radius, -90);
-                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
+                    Fillet(i*((width-Wall_thickness-2*Additional_spacing)/columns)-Wall_thickness/2-Fillet_radius/2, 0, width*scale_width, Fillet_radius, -90);
+                    Fillet(i*((width-Wall_thickness-2*Additional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
                 }
                 else {
-                    Fillet(i*((width-Wall_thickness-2*Addtional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
+                    Fillet(i*((width-Wall_thickness-2*Additional_spacing)/columns)+Wall_thickness/2+Fillet_radius/2, 0, width*scale_width, Fillet_radius, 90);
                 }
             }
         }
