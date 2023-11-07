@@ -262,9 +262,9 @@ module Fillets(layer, width, depth, height, columns, rows, Wall_thickness, scale
 
 module Layer_Marking_Text_Single(layer, width, depth, height, diameter, position)
 {
-    size = Cell_columns >= 6 || Cell_rows >= 6 ? 10-(max(Cell_columns, Cell_rows)-3) : 10;
-    width_offset = Cell_columns >= 6 || Cell_rows >= 6 ? 22-(max(Cell_columns, Cell_rows)-4)-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0) : 24-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0);
-    depth_offset = Cell_columns >= 6 || Cell_rows >= 6 ? 16-(max(Cell_columns, Cell_rows)-4)-(layer/2-1) : 18-(layer/2-1);
+    size = Layer_marking == "outside" ? 10 : Cell_columns >= 6 || Cell_rows >= 6 ? 10-(max(Cell_columns, Cell_rows)-3) : 10;
+    width_offset = (Cell_columns >= 6 || Cell_rows >= 6) && Layer_marking != "outside" ? 22-(max(Cell_columns, Cell_rows)-4)-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0) : 24-(layer/2-1)+(Cell_columns <= 4 && layer == 10 ? 5 : 0);
+    depth_offset = (Cell_columns >= 6 || Cell_rows >= 6) && Layer_marking != "outside" ? 16-(max(Cell_columns, Cell_rows)-4)-(layer/2-1) : 18-(layer/2-1);
 
     bottom_offset = Layer_marking == "inside" ? Bottom_thickness : 0;
     rotate_y = Layer_marking == "outside" ? 180 : 0;
