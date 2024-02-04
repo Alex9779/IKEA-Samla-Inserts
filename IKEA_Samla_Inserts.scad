@@ -32,7 +32,7 @@ Fillet_radius = 10;
 
 /* [Advanced settings] */
 // Set what should be generated
-Generation = "complete"; // ["complete":complete, "gridbottom":grid + bottom, "grid":grid]
+Generation = "complete"; // ["complete":complete, "gridbottom":grid + bottom, "grid":grid, "tray":open tray with sides]
 
 // Combines active layer with N layers above
 Combine_layers = 0; // [0:10]
@@ -45,6 +45,9 @@ Outer_wall_thickness = 1.3;
 
 // Adjust to your first layer height and layer height
 Bottom_thickness = 0.87;
+
+// Thickness of the top layer in tray mode
+Top_thickness = 0.87;
 
 // Additional spacing between box and insert
 Additional_spacing = 1;
@@ -394,7 +397,7 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                         }
                     }
                     // generate bottom
-                    if (Generation == "complete" || Generation == "gridbottom") {
+                    if (Generation == "complete" || Generation == "gridbottom" || Generation == "tray") {
                         Layer_Marking(layer, width, depth, height, diameter) {
                             intersection() {
                                 Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
@@ -407,6 +410,44 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                         difference() {
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
+                        }
+                    }
+                    // generate walls to the side
+                    if (Generation == "tray") {
+                        difference() {
+                            union() {
+                                // generate walls
+                                difference() {
+                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
+                                }
+                                // generate top plate on top of the walls, so layers can stack
+                                intersection() {
+                                    Samla_Content(layer + 1, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                                    translate([0, 0, (Top_thickness/2)+(height/Layers)*(layer) - Top_thickness]) cube([width*scale_width, depth*scale_depth, Top_thickness], true);
+                                }
+                            }
+                            // remove a cube from the middle, so it becomes a tray
+                            translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width * scale_width - 2 * (width_handle + diameter2), depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
+                        }
+                    }
+                    // generate walls to the side
+                    if (Generation == "tray") {
+                        difference() {
+                            union() {
+                                // generate walls
+                                difference() {
+                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
+                                }
+                                // generate top plate on top of the walls, so layers can stack
+                                intersection() {
+                                    Samla_Content(layer + 1, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
+                                    translate([0, 0, (Top_thickness/2)+(height/Layers)*(layer) - Top_thickness]) cube([width*scale_width, depth*scale_depth, Top_thickness], true);
+                                }
+                            }
+                            // remove a cube from the middle, so it becomes a tray
+                            translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width * scale_width - 2 * (width_handle + diameter2), depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
                         }
                     }
                     // generate fillets
