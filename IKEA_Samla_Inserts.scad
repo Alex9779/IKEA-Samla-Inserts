@@ -37,8 +37,11 @@ Generation = "complete"; // ["complete":complete, "gridbottom":grid + bottom, "g
 // Combines active layer with N layers above
 Combine_layers = 0; // [0:10]
 
-// Adjust to your nozzle extrusion width
-Wall_thickness = 0.75;
+// Inner wall thickness is for the grid. Adjust to your nozzle extrusion width.
+Inner_wall_thickness = 0.75;
+
+// Outer wall thickness is for the outside. Adjust to your nozzle extrusion width.
+Outer_wall_thickness = 1.3;
 
 // Adjust to your first layer height and layer height
 Bottom_thickness = 0.87;
@@ -387,7 +390,7 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                     if (Cell_columns>1 || Cell_rows>1) {
                         intersection() {
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            Grid(layer, width, depth, height, Cell_columns, Cell_rows, Wall_thickness, scale_width, scale_depth);
+                            Grid(layer, width, depth, height, Cell_columns, Cell_rows, Inner_wall_thickness, scale_width, scale_depth);
                         }
                     }
                     // generate bottom
@@ -403,14 +406,14 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                     if (Generation == "complete") {
                         difference() {
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Wall_thickness);
+                            Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
                         }
                     }
                     // generate fillets
                     if (Fillets != "false") {
                         intersection() {
                             Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                            Fillets(layer, width, depth, height, Cell_columns, Cell_rows, Wall_thickness, scale_width, scale_depth);
+                            Fillets(layer, width, depth, height, Cell_columns, Cell_rows, Inner_wall_thickness, scale_width, scale_depth);
                         }
                     }
                 }
