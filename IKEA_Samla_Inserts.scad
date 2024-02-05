@@ -58,6 +58,14 @@ Part = "false"; // ["false":false, "halve_column":halve by column, "halve_row":h
 // Full are easier to print (no support needed), partial cutouts let the top layer rest on the handle-cutouts
 Top_layer_cutouts = "full"; // ["full": full, "partial": partial]
 
+/* [Mini Tray] */
+// Array of trays. Each number in the array adds a tray for miniatures with a base of the specified width.
+// Example: [25, 25, 25, 25, 25, 25, 25] will add 7 trays of 25mm wide each.
+Tray_widths = [25, 25, 25, 25, 25, 25, 25];
+
+// Extra clearance added to the tray width
+Tray_clearance = 1.0;
+
 /* [Hidden] */
 Test = "false";
 Test_offset = 5;
@@ -384,6 +392,68 @@ module Layer_Marking(layer, width, depth, height, diameter) {
     }
 }
 
+// This module was originally created by "fidoriel" and can be found at https://github.com/fidoriel/Mini-Tray
+// This code is licensed under the GPL v3 license.
+module Tray_Miniature_brackets(
+    trays, // Array of trays [20,24,25,28,32,40,50,60,75,16];
+    width,
+    depth,
+    clearance = 1.0,
+    borderHight = 5,
+    borderWidth = 2,
+){
+    function sumv(v, i, s = 0) = (i == s ? v[i] : v[i] + sumv(v, i-1, s));
+
+    neededWidth = 2 + len(trays) * (borderWidth + clearance) + sumv(trays, len(trays)-1);
+
+    assert( len(trays) > 0, "there are no trays");
+    assert( width >= neededWidth, "there are too many trays");
+    
+    module prismL(){
+        hull() polyhedron(
+            points=[
+                [0,0,borderHight/2],
+                [borderHight/2,0,0],
+                [borderHight/2,0,borderHight/2],
+                [0,depth,borderHight/2],
+                [borderHight/2,depth,0],
+                [borderHight/2,depth,borderHight/2]
+                ],
+            faces=[[0,1,2],[1,2,5,4],[1,0,3,4],[0,2,5,3],[3,4,5]]
+        );
+    }
+
+    module prismR(){
+        hull() polyhedron(
+            points=[
+                [0,0,borderHight/2],
+                [0,0,0],
+                [borderHight/2,0,borderHight/2],
+                [0,depth,borderHight/2],
+                [0,depth,0],
+                [borderHight/2,depth,borderHight/2]
+                ],
+            faces=[[0,1,2],[1,2,5,4],[1,0,3,4],[0,2,5,3],[3,4,5]]
+        );
+    }
+
+    translate([-width/2, -depth/2, 0]) union()
+    {
+        for (i = [0:len(trays)]) {
+            xpos = ((width - neededWidth) / 2.0) + i * (clearance + borderWidth) + (i == 0 ? 0 : sumv(trays, i - 1));
+
+            translate([xpos, 0, 0]) cube([borderWidth, depth, borderHight]);
+            
+            if (i > 0) {
+                translate([xpos-borderHight/2, 0, borderHight/2+0]) prismL();
+            } 
+            if (i < len(trays)) {
+                translate([xpos+borderWidth, 0, borderHight/2+0]) prismR();
+            }
+        }
+    }
+}
+
 module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, $fn) {
     translate([0, 0, -(height/Layers)*(layer-1)]) {
         intersection() {
@@ -430,24 +500,13 @@ module Samla_Insert(layer, width, depth, height, scale_width, scale_depth, width
                             // remove a cube from the middle, so it becomes a tray
                             translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width * scale_width - 2 * (width_handle + diameter2), depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
                         }
-                    }
-                    // generate walls to the side
-                    if (Generation == "tray") {
-                        difference() {
-                            union() {
-                                // generate walls
-                                difference() {
-                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                                    Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
-                                }
-                                // generate top plate on top of the walls, so layers can stack
-                                intersection() {
-                                    Samla_Content(layer + 1, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, 0);
-                                    translate([0, 0, (Top_thickness/2)+(height/Layers)*(layer) - Top_thickness]) cube([width*scale_width, depth*scale_depth, Top_thickness], true);
-                                }
+
+                        // add brackets to hold the minis
+                        if (len(Tray_widths) > 0) {
+                            intersection() {
+                                translate([0, 0, (height/Layers)*(layer-1) + Bottom_thickness]) Tray_Miniature_brackets(trays=Tray_widths, depth=depth, width=width * scale_width - 2 * (width_handle + diameter2), clearance = Tray_clearance);
+                                Samla_Content(layer, width, depth, height, scale_width, scale_depth, width_handle, depth_handle, width_cutout, depth_cutout, scale_handle, scale_cutout, handle_cutout_height, diameter, diameter2, -Outer_wall_thickness);
                             }
-                            // remove a cube from the middle, so it becomes a tray
-                            translate([0, 0, (height/(Layers/(Combine_layers+1))/2)+(height/Layers)*(layer-1)]) cube([width * scale_width - 2 * (width_handle + diameter2), depth*scale_depth, height/(Layers/(Combine_layers+1))], true);
                         }
                     }
                     // generate fillets
