@@ -61,54 +61,54 @@ Test_offset = 5;
 
 // 5 liters box
 // VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
-5_width = 240; // overall inner width of the box
-5_depth = 154; // overall inner depth of the box
-5_height = 118; // overall inner height of the box
-5_scale_width = 1.07; // factor how much bigger the box gets in width [inner width at top] / [inner width at bottom]
-5_scale_depth = 1.11; // factor how much bigger the box gets in depth [inner depth at top] / [inner depth at bottom]
-5_width_handle = 17; // width of the handle
-5_depth_handle = 92; // depth of the handle
-5_width_cutout = 5_width-(5_depth-5_depth_handle); //width of the cutout
-5_depth_cutout = 2.5; // depth of the cutout
-5_scale_handle = 0.85; // factor how much smaller the handle gets [handle width at top] / [handle width at bottom]
-5_scale_cutout = 0.90; // factor how much smaller the cutout gets [cutout width at top] / [cutout width at bottom]
-5_handle_cutout_height = 93; // needed to calculate if we need handle and cutout, low layers on top don't need them
-5_diameter = 18; // diameter of the rounded box corners
-5_diameter2 = 12; // diameter of the handle corners
+s5_width = 240; // overall inner width of the box
+s5_depth = 154; // overall inner depth of the box
+s5_height = 118; // overall inner height of the box
+s5_scale_width = 1.07; // factor how much bigger the box gets in width [inner width at top] / [inner width at bottom]
+s5_scale_depth = 1.11; // factor how much bigger the box gets in depth [inner depth at top] / [inner depth at bottom]
+s5_width_handle = 17; // width of the handle
+s5_depth5_depth_handle = 92; // depth of the handle
+s5_width_cutout = s5_width-(s5_depth-s5_depth5_depth_handle); //width of the cutout
+s5_depth_cutout = 2.5; // depth of the cutout
+s5_scale_handle = 0.85; // factor how much smaller the handle gets [handle width at top] / [handle width at bottom]
+s5_scale_cutout = 0.90; // factor how much smaller the cutout gets [cutout width at top] / [cutout width at bottom]
+s5_handle_cutout_height = 93; // needed to calculate if we need handle and cutout, low layers on top don't need them
+s5_diameter = 18; // diameter of the rounded box corners
+s5_diameter2 = 12; // diameter of the handle corners
 
 // 11 liters box
 // VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
-11_width = 347;
-11_depth = 234;
-11_height = 118;
-11_scale_width = 1.055;
-11_scale_depth = 1.09;
-11_width_handle = 17;
-11_depth_handle = 103;
-11_width_cutout = 11_width-(11_depth-11_depth_handle)-12;
-11_depth_cutout = 2.5;
-11_scale_handle = 0.85;
-11_scale_cutout = 0.90;
-11_handle_cutout_height = 90;
-11_diameter = 18;
-11_diameter2 = 12;
+s11_width = 347;
+s11_depth = 234;
+s11_height = 118;
+s11_scale_width = 1.055;
+s11_scale_depth = 1.09;
+s11_width_handle = 17;
+s11_depth_handle = 103;
+s11_width_cutout = s11_width-(s11_depth-s11_depth_handle)-12;
+s11_depth_cutout = 2.5;
+s11_scale_handle = 0.85;
+s11_scale_cutout = 0.90;
+s11_handle_cutout_height = 90;
+s11_diameter = 18;
+s11_diameter2 = 12;
 
 // 22 liters box
 // VALUES WIP!!! MAY STILL CHANGE AFTER SOME PRINTS!!!
-22_width = 328;
-22_depth = 218;
-22_height = 256;
-22_scale_width = 1.125;
-22_scale_depth = 1.135;
-22_width_handle = 17;
-22_depth_handle = 123;
-22_width_cutout = 22_width-(22_depth-22_depth_handle)-10;
-22_depth_cutout = 2.5;
-22_scale_handle = 0.74;
-22_scale_cutout = 0.86;
-22_handle_cutout_height = 230;
-22_diameter = 18;
-22_diameter2 = 12;
+s22_width = 328;
+s22_depth = 218;
+s22_height = 256;
+s22_scale_width = 1.125;
+s22_scale_depth = 1.135;
+s22_width_handle = 17;
+s22_depth_handle = 123;
+s22_width_cutout = s22_width-(s22_depth-s22_depth_handle)-10;
+s22_depth_cutout = 2.5;
+s22_scale_handle = 0.74;
+s22_scale_cutout = 0.86;
+s22_handle_cutout_height = 230;
+s22_diameter = 18;
+s22_diameter2 = 12;
 
 Resolution = $preview ? 32 : 64;
 
@@ -440,17 +440,17 @@ for ( layer = [ start_layer : end_layer ] )
 {
     if (Box_size == "5")
     {
-        translate( [ 0, ( layer - start_layer ) * 5_depth * 5_scale_depth, 0] )
-            Samla_Insert(layer, 5_width, 5_depth, 5_height, 5_scale_width, 5_scale_depth, 5_width_handle, 5_depth_handle, 5_width_cutout, 5_depth_cutout, 5_scale_handle, 5_scale_cutout, 5_handle_cutout_height, 5_diameter, 5_diameter2);
+        translate( [ 0, ( layer - start_layer ) * s5_depth * s5_scale_depth, 0] )
+            Samla_Insert(layer, s5_width, s5_depth, s5_height, s5_scale_width, s5_scale_depth, s5_width_handle, s5_depth5_depth_handle, s5_width_cutout, s5_depth_cutout, s5_scale_handle, s5_scale_cutout, s5_handle_cutout_height, s5_diameter, s5_diameter2);
     }
     else if (Box_size == "11")
     {
-        translate( [ 0, ( layer - start_layer ) * 11_depth * 11_scale_depth, 0] )
-            Samla_Insert(layer, 11_width, 11_depth, 11_height, 11_scale_width, 11_scale_depth, 11_width_handle, 11_depth_handle, 11_width_cutout, 11_depth_cutout, 11_scale_handle, 11_scale_cutout, 11_handle_cutout_height, 11_diameter, 11_diameter2);
+        translate( [ 0, ( layer - start_layer ) * s11_depth * s11_scale_depth, 0] )
+            Samla_Insert(layer, s11_width, s11_depth, s11_height, s11_scale_width, s11_scale_depth, s11_width_handle, s11_depth_handle, s11_width_cutout, s11_depth_cutout, s11_scale_handle, s11_scale_cutout, s11_handle_cutout_height, s11_diameter, s11_diameter2);
     }
     else if (Box_size == "22")
     {
-        translate( [ 0, ( layer - start_layer ) * 22_depth * 22_scale_depth, 0] )
-            Samla_Insert(layer, 22_width, 22_depth, 22_height, 22_scale_width, 22_scale_depth, 22_width_handle, 22_depth_handle, 22_width_cutout, 22_depth_cutout, 22_scale_handle, 22_scale_cutout, 22_handle_cutout_height, 22_diameter, 22_diameter2);
+        translate( [ 0, ( layer - start_layer ) * s22_depth * s22_scale_depth, 0] )
+            Samla_Insert(layer, s22_width, s22_depth, s22_height, s22_scale_width, s22_scale_depth, s22_width_handle, s22_depth_handle, s22_width_cutout, s22_depth_cutout, s22_scale_handle, s22_scale_cutout, s22_handle_cutout_height, s22_diameter, s22_diameter2);
     }
 }
