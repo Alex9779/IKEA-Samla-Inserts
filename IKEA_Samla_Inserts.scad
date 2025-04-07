@@ -136,7 +136,7 @@ module Samla_Base(layer, width, depth, height, diameter, width_cutout, scale_cut
             translate([0-Additional_spacing/2, -(depth/2-diameter)-diameter]) square(diameter, false);
             translate([0-Additional_spacing/2, Additional_spacing/2-diameter]) square(diameter, false);
             translate([width/2-diameter, -(depth/2-diameter)]) circle(diameter);
-            translate([width/2-diameter, Additional_spacing/2-diameter]) circle(diameter);
+            translate([width/2-diameter, Additional_spacing/2-diameter]) square(diameter);
         }
     }
 }
